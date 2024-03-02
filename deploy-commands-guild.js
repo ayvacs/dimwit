@@ -1,8 +1,8 @@
 /*
 
-    deploy-commands.js
+    deploy-commands-guild.js
 
-    Register and update slash commands. Since they need to be registered only once and updated only when the definition (description, options, etc.) is changed, and there is a daily limit on command creation/updation, it is necessary to perform these functions in a separate file that is called every so often.
+    Register and update slash commands to the development guild. Since they need to be registered only once and updated only when the definition (description, options, etc.) is changed, and there is a daily limit on command creation/updation, it is necessary to perform these functions in a separate file that is called every so often.
 
 
 
@@ -13,6 +13,9 @@
     Dimwit is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License along with Dimwit. If not, see <https://www.gnu.org/licenses/>. 
+
+
+    This file uses code from the "discord.js" library. "discord.js" is licensed under the Apache license. Its source code is viewable at <https://github.com/discordjs/discord.js>.
 
 */
 
@@ -63,7 +66,7 @@ const rest = new REST().setToken(token);
             { body: commands }
         )
 
-        console.log(`Successfully reloaded ${data.length}/${commands.length} slash commands`);
+        console.log(`Successfully reloaded ${data.length}/${commands.length} slash commands to guild ${guildId}`);
     } catch (error) {
         console.error(error);
     }

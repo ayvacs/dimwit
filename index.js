@@ -25,8 +25,28 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
+const wait = require("node:timers/promises").setTimeout;
+const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
+
 const CONFIG = require("./config.json");
+const STATUSES = require("./data/statuses.json").messages;
+
+
+// Functions
+
+// Get a random status that is not equal to the parameter and return it as a string
+function getRandomStatus(exclude) {
+    let status = exclude;
+
+    while (true) {
+        if (status != exclude) {
+            break;
+        }
+        status = STATUSES[parseInt(Math.random() * STATUSES.length)];
+    }
+
+    return status;
+}
 
 
 // Create a new client
@@ -83,9 +103,34 @@ client.on(Events.InteractionCreate, async interaction => {
 })
 
 
-// When the client is ready, run this code (only once)
-client.once(Events.ClientReady, readyClient => {
+// This function runs when the client is ready, only once
+client.once(Events.ClientReady, async readyClient => {
+    // Function to change the presence
+    function setStatusMessage(text) {
+        console.log(`Changing status to ${text}`);
+        readyClient.user.setPresence({
+            status: "dnd",
+            activities: [{
+                name: text,
+                type: ActivityType.Playing
+            }]
+        })
+    }
+
+
+    // Let us known when the client is ready
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+
+    // Choose a status
+    let currentStatus = getRandomStatus("_");
+    setStatusMessage(currentStatus);
+
+    // Cycle through the statuses every so often
+    while (true) {
+        await wait(60_000); // 1_000 = 1 second
+        currentStatus = getRandomStatus(currentStatus);
+        setStatusMessage(currentStatus);
+    }
 });
 
 

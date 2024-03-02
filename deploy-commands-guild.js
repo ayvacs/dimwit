@@ -21,7 +21,7 @@
 
 
 
-const { REST, Routes } = require("discord.js");
+const { REST, Routes, SlashCommandBuilder } = require("discord.js");
 const { clientId, guildId, token } = require("./config.json");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -43,7 +43,10 @@ for (const folder of commandFolders) {
         const command = require(filePath);
         
         if ("data" in command && "execute" in command) {
-            commands.push(command.data.toJSON());
+            let data = command.data;
+            data.description = "[GUILD] " + data.description;
+
+            commands.push(data.toJSON());
             console.log(`Identified command /${command.data.name}`);
         } else {
             console.log(`[WARNING] The command at ${filePath} is missing a required "data" and/or "execute" property.`);

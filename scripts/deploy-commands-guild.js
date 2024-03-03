@@ -3,7 +3,7 @@
     deploy-commands-guild.js
         (npm run deploy-commands-guild)
 
-    Register and update slash commands to the development guild. It is necessary to perform these functions in a separate file that is called only when changes to their definition (description, options, etc.) are made since:
+    Register and update commands to the development guild. It is necessary to perform these functions in a separate file that is called only when changes to their definition (description, options, etc.) are made since:
     * commands need to be registered only once
     * it is only necessary to update them when changes to their definition (description, options, etc.) are made
     * there is a daily limit on command creation/update
@@ -53,7 +53,7 @@ for (const folder of commandFolders) {
             }
 
             commands.push(data.toJSON());
-            console.log(`Identified command /${command.data.name}`);
+            console.log(`Identified command "${command.data.name}"`);
         } else {
             console.log(`[WARNING] The command at ${filePath} is missing a required "data" and/or "execute" property.`);
         }
@@ -68,14 +68,14 @@ const rest = new REST().setToken(token);
 // Deploy commands
 (async () => {
     try {
-        console.log(`Started refreshing ${commands.length} slash commands`);
+        console.log(`Reloading ${commands.length} commands...`);
 
         const data = await rest.put(
             Routes.applicationGuildCommands(clientId, guildId),
             { body: commands }
         )
 
-        console.log(`Successfully reloaded ${data.length}/${commands.length} slash commands to guild ${guildId}`);
+        console.log(`Successfully reloaded ${data.length}/${commands.length} commands to guild ${guildId}`);
     } catch (error) {
         console.error(error);
     }

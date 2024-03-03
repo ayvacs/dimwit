@@ -3,7 +3,7 @@
     deploy-commands-global.js
         (npm run deploy-commands-global)
 
-    Register and update slash commands globally. It is necessary to perform these functions in a separate file that is called only when changes to their definition (description, options, etc.) are made since:
+    Register and update commands globally. It is necessary to perform these functions in a separate file that is called only when changes to their definition (description, options, etc.) are made since:
     * commands need to be registered only once
     * it is only necessary to update them when changes to their definition (description, options, etc.) are made
     * there is a daily limit on command creation/update
@@ -48,7 +48,7 @@ for (const folder of commandFolders) {
 
         if ("data" in command && "execute" in command) {
             commands.push(command.data.toJSON());
-            console.log(`Identified command /${command.data.name}`);
+            console.log(`Identified command "${command.data.name}"`);
         } else {
             console.log(`[WARNING] The command at ${filePath} is missing a required "data" and/or "execute" property.`);
         }
@@ -63,14 +63,14 @@ const rest = new REST().setToken(token);
 // Deploy commands
 (async () => {
     try {
-        console.log(`Started refreshing ${commands.length} slash commands`);
+        console.log(`Started reloading ${commands.length} commands...`);
 
         const data = await rest.put(
             Routes.applicationCommands(clientId),
             { body: commands }
         )
 
-        console.log(`Successfully reloaded ${data.length}/${commands.length} slash commands globally`);
+        console.log(`Successfully reloaded ${data.length}/${commands.length} commands globally`);
     } catch (error) {
         console.error(error);
     }

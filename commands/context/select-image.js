@@ -1,6 +1,6 @@
 /*
 
-    save-image.js
+    select-image.js
 
     A context menu command file
 

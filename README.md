@@ -14,10 +14,11 @@ Create a `config.json` file in the root directory with the following information
 * `guildId`: ID of a testing guild (as a string, not a number)
 * `inviteLink`: A URL that people can use to add the bot to the server (it is recommended to use `277025770496` for permissions and `bot+applications.commands` for scope)
 
-### Refresh slash commands
+### Refresh commands
 
+* Run `npm run deploy-commands` to refresh commands for the testing guild (as defined in `config.json`) then all guilds (should only be ran after testing has been completed in a private guild)
 * Run `npm run deploy-commands-guild` to refresh commands only for the testing guild (as defined in `config.json`)
-* Run `npm run deploy-commands-global` to refresh commands for all guilds (only after testing has been completed in a private guild)
+* Run `npm run deploy-commands-global` to refresh commands for all guilds (should only be ran after testing has been completed in a private guild)
 * Run `npm run flush-commands` if you want to reset guild and global commands (do not run this if you do not know what you are doing; takes ~1 hour for changes to reflect on Discord's side)
 
 ## Acknowledgements

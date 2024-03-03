@@ -3,7 +3,7 @@
     flush-commands.js
         (npm run flush-commands)
 
-    Reset guild AND global commands (takes ~1 hour). This removes all registered slash commands from the bot. In order for them to function again, they will need to be added back with `npm run deploy-commands-guild` or `npm run deploy-commands-global`.
+    Reset guild AND global commands (takes ~1 hour). This removes all registered commands from the bot. In order for them to function again, they will need to be added back with `npm run deploy-commands-guild` or `npm run deploy-commands-global`.
 
 
 

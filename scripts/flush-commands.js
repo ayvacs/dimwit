@@ -22,7 +22,7 @@
 
 
 
-const { guildId } = require("./config.json");
+const { guildId } = require("../config.json");
 
 
 

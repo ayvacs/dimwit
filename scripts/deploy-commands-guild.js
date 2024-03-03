@@ -1,8 +1,8 @@
 /*
 
-    deploy-commands-global.js
+    deploy-commands-guild.js
 
-    Register and update slash commands globally. Since they need to be registered only once and updated only when the definition (description, options, etc.) is changed, and there is a daily limit on command creation/updation, it is necessary to perform these functions in a separate file that is called every so often.
+    Register and update slash commands to the development guild. Since they need to be registered only once and updated only when the definition (description, options, etc.) is changed, and there is a daily limit on command creation/updation, it is necessary to perform these functions in a separate file that is called every so often.
 
 
 
@@ -21,8 +21,8 @@
 
 
 
-const { REST, Routes } = require("discord.js");
-const { clientId, guildId, token } = require("./config.json");
+const { REST, Routes, SlashCommandBuilder } = require("discord.js");
+const { clientId, guildId, token } = require("../config.json");
 const fs = require("node:fs");
 const path = require("node:path");
 
@@ -31,7 +31,7 @@ const commands = [];
 
 // Loop through each file in the "commands" folder and its subfolders
 
-const foldersPath = path.join(__dirname, "commands");
+const foldersPath = path.join(__dirname, "../commands");
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
@@ -43,7 +43,10 @@ for (const folder of commandFolders) {
         const command = require(filePath);
         
         if ("data" in command && "execute" in command) {
-            commands.push(command.data.toJSON());
+            let data = command.data;
+            data.description = "[GUILD] " + data.description;
+
+            commands.push(data.toJSON());
             console.log(`Identified command /${command.data.name}`);
         } else {
             console.log(`[WARNING] The command at ${filePath} is missing a required "data" and/or "execute" property.`);
@@ -62,11 +65,11 @@ const rest = new REST().setToken(token);
         console.log(`Started refreshing ${commands.length} slash commands`);
 
         const data = await rest.put(
-            Routes.applicationCommands(clientId),
+            Routes.applicationGuildCommands(clientId, guildId),
             { body: commands }
         )
 
-        console.log(`Successfully reloaded ${data.length}/${commands.length} slash commands globally`);
+        console.log(`Successfully reloaded ${data.length}/${commands.length} slash commands to guild ${guildId}`);
     } catch (error) {
         console.error(error);
     }

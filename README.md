@@ -2,13 +2,10 @@
 
 Mess around with images and GIFs on Discord!
 
-## Acknowledgements
-
-* This repository uses code from `discord.js`, which is licensed under the Apache license. Its source code is viewable at [https://github.com/discordjs/discord.js](https://github.com/discordjs/discord.js).
 
 ## Hosting
 
-### Set up bot
+### Configuration
 
 Create a `config.json` file in the root directory with the following information:
 
@@ -21,4 +18,8 @@ Create a `config.json` file in the root directory with the following information
 
 * Run `node scripts/deploy-commands-guild.js` to refresh commands only for the testing guild (as defined in `config.json`)
 * Run `node scripts/deploy-commands-global.js` to refresh commands for all guilds (only after testing has been completed in a private guild)
-* Run `node scripts/flush-commands.js` to reset guild and global commands (takes ~1 hour)
+* Run `node scripts/flush-commands.js` if you want to reset guild and global commands (do not run this if you do not know what you are doing; takes ~1 hour for changes to reflect on Discord's side)
+
+## Acknowledgements
+
+* This repository uses code from `discord.js`, which is licensed under the Apache license. Its source code is viewable at [https://github.com/discordjs/discord.js](https://github.com/discordjs/discord.js).

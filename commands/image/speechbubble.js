@@ -42,7 +42,7 @@ module.exports = {
         // Let Discord know the interaction was received
         await interaction.deferReply();
 
-        // Create a Canvas
+        // Create a blank Canvas
         const attachment = interaction.options.getAttachment("image");
         const canvas = Canvas.createCanvas(attachment.width, attachment.height);
         const context = canvas.getContext("2d");
@@ -52,24 +52,23 @@ module.exports = {
         context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
         // Add the speechbubble on top
-        const bubble = await Canvas.loadImage(`${__dirname}/../../images/speechbubble.png`);
+        const bubble = await Canvas.loadImage(`${__dirname}/../../assets/images/speechbubble.png`);
         context.drawImage(bubble, 0, 0, canvas.width, (canvas.height / 5));
 
         // If necessary, delete pixels inside the speech bubble shape
         if (interaction.options.getBoolean("transparent")) {
+            // Tell Canvas that we want to delete these pixels, not draw them
             context.globalCompositeOperation = "destination-out";
 
-            const mask = await Canvas.loadImage(`${__dirname}/../../images/speechbubble_mask.png`);
+            const mask = await Canvas.loadImage(`${__dirname}/../../assets/images/speechbubble_mask.png`);
             context.drawImage(mask, 0, 0, canvas.width, (canvas.height / 5));
 
+            // Tell Canvas to stop deleting pixels
             context.globalCompositeOperation = "source-over";
         }
 
         // Create a new attachment to reply with
-        const newAttachment = new AttachmentBuilder(
-            await canvas.encode("png"),
-            { name: "processed.png" }
-        );
+        const newAttachment = new AttachmentBuilder(await canvas.encode("png"), { name: "processed.png" });
 
         await interaction.editReply({ files: [newAttachment] })
     }

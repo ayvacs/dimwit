@@ -56,7 +56,7 @@ module.exports = {
         if (interaction.options.getAttachment("image")) {
             attachment = interaction.options.getAttachment("image");
         } else {
-            let result = getUser(interaction.user.id, "savedImage");
+            let result = getUser(interaction.user.id, "savedImage", true);
             if (result == null) {
                 await interaction.editReply("‼️ You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.");
                 return;

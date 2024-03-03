@@ -21,26 +21,26 @@
 
 
 
-var self = {
-    userCache: {},
+const userCache = {};
 
-    getUser: function(id, scope) {
-        console.log(self.userCache);
-        if (self.userCache[id] == null || self.userCache[id][scope] == null)
+module.exports = {
+
+    getUser: function(id, scope, clearAfter) {
+        if (userCache[id] == null || userCache[id][scope] == null)
             return null;
 
-        return self.userCache[id][scope];
+        const result = userCache[id][scope];
+
+        if (clearAfter)
+            userCache[id][scope] = null;
+        
+        return result;
     },
 
     setUser: function (id, scope, data) {
-        console.log(self.userCache);
-        if (self.userCache[id] == null)
-            self.userCache[id] = {};
+        if (userCache[id] == null)
+            userCache[id] = {};
 
-        self.userCache[id][scope] = data
-        console.log(self.userCache);
+        userCache[id][scope] = data
     }
-}
-
-
-module.exports = self;
+};

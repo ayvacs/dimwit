@@ -36,8 +36,7 @@ module.exports = {
             .setRequired(true))
         .addBooleanOption(option => option
             .setName("transparent")
-            .setDescription("Make the speech bubble transparent")
-            .setRequired(true))
+            .setDescription("Make the speech bubble transparent"))
         .addBooleanOption(option => option
             .setName("gif")
             .setDescription("Force the output image to be a GIF")),
@@ -47,13 +46,17 @@ module.exports = {
         await interaction.deferReply();
 
         // Configuration
-        const doGif = interaction.options.getBoolean("gif")
         const doTransparent = interaction.options.getBoolean("transparent")
+        const attachment = interaction.options.getAttachment("image");
+        const doGif = interaction.options.getBoolean("gif")
 
-
+        // Make sure the attachment is an image
+        if (attachment.width == null || attachment.height == null) {
+            await interaction.editReply("‼️ The attachment you uploaded is not an image.");
+            return;
+        }
 
         // Create a blank Canvas
-        const attachment = interaction.options.getAttachment("image");
         const canvas = Canvas.createCanvas(attachment.width, attachment.height);
         const context = canvas.getContext("2d");
 

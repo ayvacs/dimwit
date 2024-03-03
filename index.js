@@ -79,14 +79,13 @@ for (const folder of commandFolders) {
 }
 
 
-// **********************
-// SLASH COMMANDS HANDLER
-// **********************
+// ************************************************
+// SLASH COMMANDS AND CONTEXT MENU COMMANDS HANDLER
+// ************************************************
 
-// To respond to executed slash commands, execute the required code when an interaction is received
 client.on(Events.InteractionCreate, async interaction => {
-    // Do not reply to interactions that are not slash commands
-    if (!interaction.isChatInputCommand()) return;
+    // Do not reply to interactions that are not slash commands or context menu commands
+    if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
     
     const command = interaction.client.commands.get(interaction.commandName);
 
@@ -105,7 +104,8 @@ client.on(Events.InteractionCreate, async interaction => {
             await interaction.reply({ content: "There was an error while executing this command.", ephemeral: true });
         }
     }
-})
+});
+
 
 
 // ********************

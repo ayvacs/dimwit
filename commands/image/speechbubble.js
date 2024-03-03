@@ -25,6 +25,7 @@ const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
 
 const canvasToGIFstream = require("../../modules/canvas-to-gifstream.js");
+const { getUser } = require("../../modules/user-cache.js");
 
 
 module.exports = {
@@ -34,7 +35,7 @@ module.exports = {
         .addAttachmentOption(option => option
             .setName("image")
             .setDescription("The background image")
-            .setRequired(true))
+            .setRequired(false)) // because save-image is a thing!
         .addBooleanOption(option => option
             .setName("transparent")
             .setDescription("Make the speech bubble transparent"))
@@ -47,9 +48,22 @@ module.exports = {
         await interaction.deferReply();
 
         // Configuration
-        const doTransparent = interaction.options.getBoolean("transparent")
-        const attachment = interaction.options.getAttachment("image");
+        const doTransparent = interaction.options.getBoolean("transparent") 
         const doGif = interaction.options.getBoolean("gif")
+
+        // Get attachment
+        let attachment;
+        if (interaction.options.getAttachment("image")) {
+            attachment = interaction.options.getAttachment("image");
+        } else {
+            let result = getUser(interaction.user.id, "savedImage");
+            if (result == null) {
+                await interaction.editReply("‼️ You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.");
+                return;
+            } else {
+                attachment = result;
+            }
+        }
 
         // Make sure the attachment is an image
         if (attachment.width == null || attachment.height == null) {

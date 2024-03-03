@@ -25,7 +25,7 @@
 
 
 
-const { REST, Routes, SlashCommandBuilder } = require("discord.js");
+const { REST, Routes } = require("discord.js");
 const { clientId, guildId, token } = require("../config.json");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -48,7 +48,9 @@ for (const folder of commandFolders) {
 
         if ("data" in command && "execute" in command) {
             let data = command.data;
-            data.description = "[GUILD] " + data.description;
+            if (data.description != null) {
+                data.description = "[GUILD] " + data.description;
+            }
 
             commands.push(data.toJSON());
             console.log(`Identified command /${command.data.name}`);

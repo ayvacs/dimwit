@@ -6,6 +6,7 @@
     "scripts": {
         "deploy-commands-global": "node ./scripts/deploy-commands-global.js",
         "deploy-commands-guild": "node ./scripts/deploy-commands-guild.js",
+        "deploy-commands": "npm run deploy-commands-guild && npm run deploy-commands-global",
         "flush-commands": "node ./scripts/flush-commands.js"
     },
     "author": "ayvacs",

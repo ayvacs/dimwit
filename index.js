@@ -78,6 +78,11 @@ for (const folder of commandFolders) {
     }
 }
 
+
+// **********************
+// SLASH COMMANDS HANDLER
+// **********************
+
 // To respond to executed slash commands, execute the required code when an interaction is received
 client.on(Events.InteractionCreate, async interaction => {
     // Do not reply to interactions that are not slash commands
@@ -102,6 +107,10 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 })
 
+
+// ********************
+// CLIENT READY HANDLER
+// ********************
 
 // This function runs when the client is ready, only once
 client.once(Events.ClientReady, async readyClient => {
@@ -132,6 +141,7 @@ client.once(Events.ClientReady, async readyClient => {
         setStatusMessage(currentStatus);
     }
 });
+
 
 
 // Log in to Discord with the bot's token

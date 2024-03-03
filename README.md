@@ -16,9 +16,9 @@ Create a `config.json` file in the root directory with the following information
 
 ### Refresh slash commands
 
-* Run `node scripts/deploy-commands-guild.js` to refresh commands only for the testing guild (as defined in `config.json`)
-* Run `node scripts/deploy-commands-global.js` to refresh commands for all guilds (only after testing has been completed in a private guild)
-* Run `node scripts/flush-commands.js` if you want to reset guild and global commands (do not run this if you do not know what you are doing; takes ~1 hour for changes to reflect on Discord's side)
+* Run `npm run deploy-commands-guild` to refresh commands only for the testing guild (as defined in `config.json`)
+* Run `npm run deploy-commands-global` to refresh commands for all guilds (only after testing has been completed in a private guild)
+* Run `npm run flush-commands` if you want to reset guild and global commands (do not run this if you do not know what you are doing; takes ~1 hour for changes to reflect on Discord's side)
 
 ## Acknowledgements
 

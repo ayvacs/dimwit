@@ -4,7 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "deploy-commands-global": "node ./scripts/deploy-commands-global.js",
+        "deploy-commands-guild": "node ./scripts/deploy-commands-guild.js",
+        "flush-commands": "node ./scripts/flush-commands.js"
     },
     "author": "ayvacs",
     "license": "ISC",

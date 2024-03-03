@@ -23,7 +23,6 @@
 
 const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
-const GIFEncoder = require('gifencoder');
 
 const canvasToGIFstream = require("../../modules/canvas-to-gifstream.js");
 

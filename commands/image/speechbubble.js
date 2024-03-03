@@ -25,6 +25,8 @@ const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
 const GIFEncoder = require('gifencoder');
 
+const canvasToGIFstream = require("../../modules/canvas-to-gifstream.js");
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -81,35 +83,11 @@ module.exports = {
         }
 
         // Create a new attachment to reply with
-        //const newAttachment = new AttachmentBuilder(await canvas.encode("png"), { name: "processed.png" });
-
-        let newAttachment;
-        if (doGif) {
-            // force as gif
-            const encoder = new GIFEncoder(canvas.width, canvas.height);
-            const stream = encoder.createReadStream();
-            
-            encoder.start();
-            encoder.setRepeat(-1);   // 0 for repeat, -1 for no-repeat
-
-            if (doTransparent)
-                encoder.setTransparent(true);
-
-            encoder.addFrame(context);
-            encoder.finish();
-
-            newAttachment = new AttachmentBuilder(
-                stream,
-                { name: "processed.gif" }
-            );
-        } else {
-            // force as png
-            newAttachment = new AttachmentBuilder(
-                await canvas.encode("png"),
-                { name: "processed.png" }
-            );
-        }
-
-        await interaction.editReply({ files: [newAttachment] })
+        await interaction.editReply({files: [
+            new AttachmentBuilder(
+                doGif ? canvasToGIFstream(canvas, doTransparent) : await canvas.encode("png"),
+                { name: doGif ? "processed.gif" : "processed.png" }
+            )
+        ]})
     }
 }

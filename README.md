@@ -1,6 +1,6 @@
 # Dimwit
 
-A discord image manipulation bot
+Mess around with images and GIFs on Discord!
 
 ## Acknowledgements
 

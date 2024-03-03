@@ -23,6 +23,7 @@
 
 const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
+const GIFEncoder = require('gifencoder');
 
 
 module.exports = {
@@ -36,11 +37,20 @@ module.exports = {
         .addBooleanOption(option => option
             .setName("transparent")
             .setDescription("Make the speech bubble transparent")
-            .setRequired(true)),
+            .setRequired(true))
+        .addBooleanOption(option => option
+            .setName("gif")
+            .setDescription("Force the output image to be a GIF")),
     
     async execute(interaction) {
         // Let Discord know the interaction was received
         await interaction.deferReply();
+
+        // Configuration
+        const doGif = interaction.options.getBoolean("gif")
+        const doTransparent = interaction.options.getBoolean("transparent")
+
+
 
         // Create a blank Canvas
         const attachment = interaction.options.getAttachment("image");
@@ -56,7 +66,7 @@ module.exports = {
         context.drawImage(bubble, 0, 0, canvas.width, (canvas.height / 5));
 
         // If necessary, delete pixels inside the speech bubble shape
-        if (interaction.options.getBoolean("transparent")) {
+        if (doTransparent) {
             // Tell Canvas that we want to delete these pixels, not draw them
             context.globalCompositeOperation = "destination-out";
 
@@ -68,7 +78,34 @@ module.exports = {
         }
 
         // Create a new attachment to reply with
-        const newAttachment = new AttachmentBuilder(await canvas.encode("png"), { name: "processed.png" });
+        //const newAttachment = new AttachmentBuilder(await canvas.encode("png"), { name: "processed.png" });
+
+        let newAttachment;
+        if (doGif) {
+            // force as gif
+            const encoder = new GIFEncoder(canvas.width, canvas.height);
+            const stream = encoder.createReadStream();
+            
+            encoder.start();
+            encoder.setRepeat(-1);   // 0 for repeat, -1 for no-repeat
+
+            if (doTransparent)
+                encoder.setTransparent(true);
+
+            encoder.addFrame(context);
+            encoder.finish();
+
+            newAttachment = new AttachmentBuilder(
+                stream,
+                { name: "processed.gif" }
+            );
+        } else {
+            // force as png
+            newAttachment = new AttachmentBuilder(
+                await canvas.encode("png"),
+                { name: "processed.png" }
+            );
+        }
 
         await interaction.editReply({ files: [newAttachment] })
     }

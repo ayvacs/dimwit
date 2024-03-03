@@ -29,7 +29,7 @@ const wait = require("node:timers/promises").setTimeout;
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
 
 const CONFIG = require("./config.json");
-const STATUSES = require("./data/statuses.json").messages;
+const STATUSES = require("./assets/statuses.json").messages;
 
 
 // Functions

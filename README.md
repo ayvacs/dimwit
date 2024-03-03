@@ -21,4 +21,4 @@ Create a `config.json` file in the root directory with the following information
 
 * Run `node scripts/deploy-commands-guild.js` to refresh commands only for the testing guild (as defined in `config.json`)
 * Run `node scripts/deploy-commands-global.js` to refresh commands for all guilds (only after testing has been completed in a private guild)
-* Run `node scripts/flush-commands.js` to flush reset guild and global commands (takes ~1 hour)
+* Run `node scripts/flush-commands.js` to reset guild and global commands (takes ~1 hour)

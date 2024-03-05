@@ -37,18 +37,33 @@ const { EmbedBuilder } = require('discord.js');
 
 const self = {};
 
+// WHITE: For general messages (colour can be changed!)
 self.message = function(text, color) {
     return new EmbedBuilder()
         .setColor(color ? color : "#FFFFFF")
         .setDescription(text ? text : "(empty embed");
 }
 
+// ORANGE: For warnings
 self.warning = function(text) {
-    return self.message(text).setColor("#EB9634");
+    return self.message(text)
+        .setColor("#EB9634");
 }
 
+// RED: For errors
 self.error = function(text) {
-    return self.message(text).setColor("#EB4034");
+    return self.message(text)
+        .setTitle("Oops, there was an error!")
+        .setColor("#EB4034")
+        .setFooter({
+            "text": "If you didn't do anything wrong, you can report a bug on Github: https://github.com/ayvacs/dimwit/issues/new"
+        });
+}
+
+// GREEN: For confirmation
+self.affirm = function(text) {
+    return self.message(text)
+        .setColor("#34EB4C");
 }
 
 

@@ -46,12 +46,12 @@ module.exports = {
     
     async execute(interaction) {
         // Let Discord know the interaction was received
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
 
         if (interaction.targetMessage == null) {
             await interaction.editReply({
                 ephemeral: true,
-                embeds: [createEmbed.message("To use this command, you'll need to right-click on an image and click the \"Apps\" button.")]
+                embeds: [createEmbed.warning("To use this command, you'll need to right-click on an image and click the \"Apps\" button.")]
             });
             return;
         }
@@ -61,7 +61,7 @@ module.exports = {
         if (attachment == null) {
             await interaction.editReply({
                 ephemeral: true,
-                embeds: [createEmbed.message("I can't find an attachment in this message!")]
+                embeds: [createEmbed.error("I can't find an attachment in this message!")]
             });
             return;
         }
@@ -70,7 +70,7 @@ module.exports = {
 
         await interaction.editReply({
             ephemeral: true,
-            embeds: [createEmbed.message("Got it! This image will be used for your next message, unless you upload a different one.")]
+            embeds: [createEmbed.affirm("Got it! This image will be used for your next message, unless you upload a different one.")]
         });
     }
 }

@@ -51,7 +51,7 @@ module.exports = {
 
         await interaction.editReply({
             ephemeral: true,
-            embeds: [createEmbed.message(`🏓 Pong! Your latency is ${Date.now() - interaction.createdTimestamp}ms.`)]
+            embeds: [createEmbed.affirm(`🏓 Pong! Your latency is ${Date.now() - interaction.createdTimestamp}ms.`)]
         });
     }
 }

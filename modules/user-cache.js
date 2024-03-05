@@ -24,12 +24,7 @@
     details.
 
     You should have received a copy of the GNU General Public License along with
-    Dimwit. If not, see <https://www.gnu.org/licenses/>. 
-
-
-    This file uses code from the "discord.js" library. "discord.js" is licensed
-    under the Apache license. Its source code is viewable at
-    <https://github.com/discordjs/discord.js>.
+    Dimwit. If not, see <https://www.gnu.org/licenses/>.
 
 */
 

@@ -32,35 +32,29 @@ const { EmbedBuilder } = require('discord.js');
 
 const self = {};
 
-// WHITE: For general messages (colour can be changed!)
-self.message = function(text, title, color) {
+// WHITE: For general messages
+self.message = function(text, title) {
     // Create a blank embed first and replace the values provided by the user after.
     const embed = new EmbedBuilder()
-        .setDescription( "(empty embed")
-        .setColor("#FFFFFF");
-
-    if (text != null)
-        embed.setDescription(text);
+        .setDescription(text ? text : "?")
+        .setColor(color ? color : "#FFFFFF");
 
     if (title != null)
         embed.setTitle(title);
-
-    if (color != null)
-        embed.setColor(color);
 
     return embed;
 }
 
 // ORANGE: For warnings
-self.warning = function(text) {
-    return self.message(text)
+self.warning = function(text, title) {
+    return self.message(text, title)
         .setColor("#EB9634");
 }
 
 // RED: For errors
-self.error = function(text) {
+self.error = function(text, title) {
     return self.message(text)
-        .setTitle("Oops, there was an error!")
+        .setTitle(title ? title : "Oops, there was an error!")
         .setColor("#EB4034")
         .setFooter({
             "text": "If you didn't do anything wrong, you can report a bug by running /bug"

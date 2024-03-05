@@ -21,30 +21,29 @@
 
 
 
-// Require discord.js classes
-
+// Require node classes
 const fs = require("node:fs");
 const path = require("node:path");
 const wait = require("node:timers/promises").setTimeout;
+
+// Require discord.js classes
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
 
-const CONFIG = require("./config.json");
-const STATUSES = require("./assets/statuses.json").messages;
-
+// Require bot classes and methods
+const config = require("./config.json");
+const statuses = require("./assets/statuses.json").messages;
 const createEmbed = require("./modules/create-embed.js");
 
 
 // Functions
 
 // Get a random status that is not equal to the parameter and return it as a string
-function getRandomStatus(exclude) {
+function getRandomStatus(exclude_) {
+    const exclude = exclude_ ? exclude : "";
     let status = exclude;
 
-    while (true) {
-        if (status != exclude) {
-            break;
-        }
-        status = STATUSES[parseInt(Math.random() * STATUSES.length)];
+    while (status == exclude) {
+        status = statuses[parseInt(Math.random() * statuses.length)];
     }
 
     return status;
@@ -73,7 +72,7 @@ for (const folder of commandFolders) {
         // Set a new item in the client.commands Collection with the key as the command name and the value as the exported module
         if ("data" in command && "execute" in command) {
             client.commands.set(command.data.name, command);
-            console.log(`Successfully added command /${command.data.name}`);
+            console.log(`Successfully added command "${command.data.name}"`);
         } else {
             console.log(`[WARNING] The command at ${filePath} is missing a required "data" and/or "execute" property.`);
         }
@@ -124,7 +123,7 @@ client.on(Events.InteractionCreate, async interaction => {
 client.once(Events.ClientReady, async readyClient => {
     // Function to change the presence
     function setStatusMessage(text) {
-        console.log(`Changing status to ${text}`);
+        console.log(`Changing status to "Playing ${text}"`);
         readyClient.user.setPresence({
             status: "dnd",
             activities: [{
@@ -134,17 +133,16 @@ client.once(Events.ClientReady, async readyClient => {
         })
     }
 
-
-    // Let us known when the client is ready
+    // Log when the client is ready
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 
     // Choose a status
-    let currentStatus = getRandomStatus("_");
+    let currentStatus = getRandomStatus();
     setStatusMessage(currentStatus);
 
     // Cycle through the statuses every so often
     while (true) {
-        await wait(60_000); // 1_000 = 1 second
+        await wait(120_000); // 1_000 = 1 second
         currentStatus = getRandomStatus(currentStatus);
         setStatusMessage(currentStatus);
     }
@@ -153,4 +151,4 @@ client.once(Events.ClientReady, async readyClient => {
 
 
 // Log in to Discord with the bot's token
-client.login(CONFIG.token);
+client.login(config.token);

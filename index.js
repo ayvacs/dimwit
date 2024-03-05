@@ -39,21 +39,6 @@ const statuses = require("./assets/statuses.json").messages;
 const createEmbed = require("./modules/create-embed.js");
 
 
-// Functions
-
-// Get a random status that is not equal to the parameter and return it as a string
-function getRandomStatus(exclude_) {
-    const exclude = exclude_ ? exclude : "";
-    let status = exclude;
-
-    while (status == exclude) {
-        status = statuses[parseInt(Math.random() * statuses.length)];
-    }
-
-    return status;
-}
-
-
 // Create a new client
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -84,9 +69,9 @@ for (const folder of commandFolders) {
 }
 
 
-// ************************************************
+//*************************************************
 // SLASH COMMANDS AND CONTEXT MENU COMMANDS HANDLER
-// ************************************************
+//*************************************************
 
 client.on(Events.InteractionCreate, async interaction => {
     // Do not reply to interactions that are not slash commands or context menu commands
@@ -119,36 +104,42 @@ client.on(Events.InteractionCreate, async interaction => {
 
 
 
-// ********************
+//*********************
 // CLIENT READY HANDLER
-// ********************
+//*********************
 
 // This function runs when the client is ready, only once
 client.once(Events.ClientReady, async readyClient => {
     // Function to change the presence
-    function setStatusMessage(text) {
-        console.log(`Changing status to "Playing ${text}"`);
+    function setStatusMessage(previous) {
+        let current = previous;
+
+        while (current == previous) {
+            current = statuses[parseInt(Math.random() * statuses.length)];
+        }
+
+        console.log(`Changing status to "Playing ${current}"`);
         readyClient.user.setPresence({
             status: "dnd",
             activities: [{
-                name: text,
+                name: current,
                 type: ActivityType.Playing
             }]
         })
+
+        return current;
     }
 
     // Log when the client is ready
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 
     // Choose a status
-    let currentStatus = getRandomStatus();
-    setStatusMessage(currentStatus);
+    let currentStatus = setStatusMessage();
 
     // Cycle through the statuses every so often
     while (true) {
         await wait(120_000); // 1_000 = 1 second
-        currentStatus = getRandomStatus(currentStatus);
-        setStatusMessage(currentStatus);
+        currentStatus = setStatusMessage(currentStatus);
     }
 });
 

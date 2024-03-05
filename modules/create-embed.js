@@ -56,7 +56,7 @@ self.error = function(text) {
         .setTitle("Oops, there was an error!")
         .setColor("#EB4034")
         .setFooter({
-            "text": "If you didn't do anything wrong, you can report a bug on Github: https://github.com/ayvacs/dimwit/issues/new"
+            "text": "If you didn't do anything wrong, you can report a bug by running **/bug**"
         });
 }
 

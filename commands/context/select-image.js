@@ -34,6 +34,7 @@
 
 
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js");
+const createEmbed = require("../../modules/create-embed.js");
 const { setUser } = require("../../modules/user-cache.js");
 
 
@@ -48,19 +49,28 @@ module.exports = {
         await interaction.deferReply();
 
         if (interaction.targetMessage == null) {
-            await interaction.editReply("To use this command, you'll need to right-click on an image and click the \"Apps\" button.");
+            await interaction.editReply({
+                ephemeral: true,
+                embeds: [createEmbed.message("To use this command, you'll need to right-click on an image and click the \"Apps\" button.")]
+            });
             return;
         }
 
         const senderId = interaction.user.id;
         const attachment = interaction.targetMessage.attachments.at(0);
         if (attachment == null) {
-            await interaction.editReply("I can't find an attachment in this message!");
+            await interaction.editReply({
+                ephemeral: true,
+                embeds: [createEmbed.message("I can't find an attachment in this message!")]
+            });
             return;
         }
 
         setUser(senderId, "savedImage", attachment)
 
-        await interaction.editReply("Got it! This image will be used for your next message, unless you upload a different one.");
+        await interaction.editReply({
+            ephemeral: true,
+            embeds: [createEmbed.message("Got it! This image will be used for your next message, unless you upload a different one.")]
+        });
     }
 }

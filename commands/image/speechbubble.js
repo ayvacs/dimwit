@@ -36,6 +36,7 @@ const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
 
 const canvasToGIFstream = require("../../modules/canvas-to-gifstream.js");
+const createEmbed = require("../../modules/create-embed.js");
 const { getUser } = require("../../modules/user-cache.js");
 
 
@@ -69,7 +70,10 @@ module.exports = {
         } else {
             let result = getUser(interaction.user.id, "savedImage", true);
             if (result == null) {
-                await interaction.editReply("‼️ You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.");
+                await interaction.editReply({
+                    ephemeral: true,
+                    embeds: [createEmbed.error("You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.")]
+                });
                 return;
             } else {
                 attachment = result;
@@ -78,7 +82,10 @@ module.exports = {
 
         // Make sure the attachment is an image
         if (attachment.width == null || attachment.height == null) {
-            await interaction.editReply("‼️ The attachment you uploaded is not an image.");
+            await interaction.editReply({
+                ephemeral: true,
+                embeds: [createEmbed.error("The attachment you uploaded is not an image.")]
+            });
             return;
         }
 

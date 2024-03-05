@@ -1,11 +1,10 @@
 /*
 
-    ping.js
+    create-embed.js
 
-    A command file
-
-    A simple command that reports the user's latency. It also functions as a
-    quick test to ensure the bot is working properly.
+    Module exporting various functions to create Embeds based on the user's
+    specifications. Intended to be an easy way for all embeds created by the bot
+    to match a similar style.
 
 
 
@@ -33,25 +32,24 @@
 
 
 
-const { SlashCommandBuilder } = require("discord.js");
-const createEmbed = require("../../modules/create-embed.js");
+const { EmbedBuilder } = require('discord.js');
 
 
-module.exports = {
-    data: new SlashCommandBuilder()
-        .setName("ping")
-        .setDescription("Measure your latency"),
-    
-    async execute(interaction) {
-        const message = await interaction.reply({
-            ephemeral: true,
-            fetchReply: true,
-            embeds: [createEmbed.message("🏓 Pong?")]
-        });
+const self = {};
 
-        await interaction.editReply({
-            ephemeral: true,
-            embeds: [createEmbed.message(`🏓 Pong! Your latency is ${Date.now() - interaction.createdTimestamp}ms.`)]
-        });
-    }
+self.message = function(text, color) {
+    return new EmbedBuilder()
+        .setColor(color ? color : "#FFFFFF")
+        .setDescription(text ? text : "(empty embed");
 }
+
+self.warning = function(text) {
+    return self.message(text).setColor("#EB9634");
+}
+
+self.error = function(text) {
+    return self.message(text).setColor("#EB4034");
+}
+
+
+module.exports = self;

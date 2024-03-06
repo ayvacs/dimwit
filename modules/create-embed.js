@@ -37,7 +37,7 @@ self.message = function(text, title) {
     // Create a blank embed first and replace the values provided by the user after.
     const embed = new EmbedBuilder()
         .setDescription(text ? text : "?")
-        .setColor(color ? color : "#FFFFFF");
+        .setColor("#FFFFFF");
 
     if (title != null)
         embed.setTitle(title);

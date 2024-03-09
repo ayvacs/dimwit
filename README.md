@@ -20,7 +20,7 @@ Mess around with images and GIFs on Discord! Dimwit is a Discord.js bot that int
 ## Packages
 
 * `discord.js` ([source](https://github.com/discordjs/discord.js)) - A powerful Node.js module for interacting with the Discord API
-* `gifencoder` ([source](https://www.npmjs.com/package/gifencoder)) - A serveer-side gif generation module for Node.js
+* `gifencoder` ([source](https://www.npmjs.com/package/gifencoder)) - A GIF generation module for Node.js
 * `@napi-rs/canvas` ([source](https://github.com/Brooooooklyn/canvas)) - An image manipulation tool that enables many of Dimwit's image commands
 
 ## Hosting

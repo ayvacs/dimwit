@@ -1,26 +1,34 @@
 # Dimwit
 
-Mess around with images and GIFs on Discord!
+## About
 
+Mess around with images and GIFs on Discord! Dimwit is a Discord.js bot that introduces numerous funny image-related commands.
+
+## Packages
+
+* `discord.js` ([source](https://github.com/discordjs/discord.js)) - A powerful Node.js module for interacting with the Discord API
+* `gifencoder` ([source](https://www.npmjs.com/package/gifencoder)) - A serveer-side gif generation module for Node.js
+* `@napi-rs/canvas` ([source](https://github.com/Brooooooklyn/canvas)) - An image manipulation tool that enables many of Dimwit's image commands
 
 ## Hosting
 
 ### Configuration
 
-Create a `config.json` file in the root directory with the following information:
+Create a `config.json` file in the root with the following information:
 
 * `token`: Your bot's token
-* `clientId`: Your app's application ID (as a string, not a number)
-* `guildId`: ID of a testing guild (as a string, not a number)
+* `clientId`: Your app's application ID (string)
+* `guildId`: ID of a testing guild (string)
+
+You may also want to add the following information, which is not required for the bot to run but may be required for certain features:
+
 * `inviteLink`: A URL that people can use to add the bot to the server (it is recommended to use `277025770496` for permissions and `bot+applications.commands` for scope)
 
-### Refresh commands
+### Node commands
 
-* Run `npm run deploy-commands` to refresh commands for the testing guild (as defined in `config.json`) then all guilds (should only be ran after testing has been completed in a private guild)
-* Run `npm run deploy-commands-guild` to refresh commands only for the testing guild (as defined in `config.json`)
-* Run `npm run deploy-commands-global` to refresh commands for all guilds (should only be ran after testing has been completed in a private guild)
-* Run `npm run flush-commands` if you want to reset guild and global commands (do not run this if you do not know what you are doing; takes ~1 hour for changes to reflect on Discord's side)
-
-## Acknowledgements
-
-* This repository uses code from `discord.js`, which is licensed under the Apache license. Its source code is viewable at [https://github.com/discordjs/discord.js](https://github.com/discordjs/discord.js).
+| Command | Details |
+| - | - |
+| `npm run deploy-commands` | Refresh commands for the testing guild (as defined in `config.json`) then all guilds. Should be ran only after testing has been completed in a private guild. |
+| `npm run deploy-commands-guild` | Refresh commands for the testing guild (as defined in `config.json`). |
+| `npm run deploy-commands-global` | Refresh commands for all guilds. Should be ran only after testing has been completed in a private guild.
+| `npm run flush-commands` | Reset global and guild commands. Don't run this if you don't know what you're doing. It takes around an hour for the changes to reflect on Discord's end.

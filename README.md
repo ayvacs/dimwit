@@ -1,4 +1,17 @@
-# Dimwit
+<div align="center">
+    <br>
+    <!-- Wordmark -->
+    <p>
+        <a href="https://github.com/ayvacs/dimwit"><img alt="Dimwit logo" width="550" src="https://raw.githubusercontent.com/ayvacs/dimwit/main/assets/logos/wordmark-min.png"></a>
+    </p>
+    <br>
+    <!-- Badges -->
+    <p>
+        <img alt="Repository license" src="https://img.shields.io/github/license/ayvacs/dimwit">
+        <img alt="Repository commit activity" src="https://img.shields.io/github/commit-activity/w/ayvacs/dimwit">
+        <img alt="Repository Scrutinizer quality" src="https://img.shields.io/scrutinizer/quality/g/ayvacs/dimwit">
+    </p>
+</div>
 
 ## About
 

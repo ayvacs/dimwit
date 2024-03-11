@@ -35,10 +35,9 @@ const userCache = {};
 
 module.exports = {
 
-    getUser: function(id_, scope, clearAfter) {
+    getUser: function(id, scope, clearAfter) {
         // Verify input
-        const id = id_.toString();
-        if (id == null)
+        if (id.toString() == null)
             return null;
 
         // Make sure the data exists
@@ -55,10 +54,9 @@ module.exports = {
         return result;
     },
 
-    setUser: function (id_, scope, data) {
+    setUser: function (id, scope, data) {
         // Verify input
-        const id = id_.toString();
-        if (id == null)
+        if (id.toString() == null)
             return null;
 
         // Make sure an empty object exists for this user

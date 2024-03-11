@@ -10,6 +10,7 @@
         <img alt="Repository license" src="https://img.shields.io/github/license/ayvacs/dimwit">
         <img alt="Repository commit activity" src="https://img.shields.io/github/commit-activity/w/ayvacs/dimwit">
         <img alt="Repository Scrutinizer quality" src="https://img.shields.io/scrutinizer/quality/g/ayvacs/dimwit">
+        <img alt="Repository Scuritinizer build pass/fail" src="https://scrutinizer-ci.com/g/ayvacs/dimwit/badges/build.png?b=main">
     </p>
 </div>
 

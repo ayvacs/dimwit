@@ -54,17 +54,16 @@ Please follow these guidelines!
 
 ### Directory Structure
 
-```diff
-📂 dimwit
-↳ assets/           # miscellaneous assets that are
-                        # not required in the code
-    ↳ logos/        # a collection of logos
-↳ bin/              # miscellaneous scripts
-↳ src/              # source code
-    ↳ assets/       # assets that are required in code
-    ↳ commands/     # source code of each command
-    ↳ modules/      # functions and other code used by
-                        # multiple files
-    ↳ index.js      # main discord.js manager
-    ↳ config.json   # configuration file
+```
+📂 dimwit/
+    ⮡ assets/       # miscellaneous assets that are
+                        not required in the code
+    ⮡ bin/          # miscellaneous scripts
+    ⮡ src/          # source code
+        ⮡ assets/       # assets that are required in code
+        ⮡ commands/     # source code of each command
+        ⮡ modules/      # functions and other code used by
+                            multiple files
+        ⮡ index.js      # main discord.js manager
+        ⮡ config.json   # configuration file
 ```

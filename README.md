@@ -45,3 +45,26 @@ You may also want to add the following information, which is not required for th
 | `npm run deploy-commands-guild` | Refresh commands for the testing guild (as defined in `config.json`). |
 | `npm run deploy-commands-global` | Refresh commands for all guilds. Should be ran only after testing has been completed in a private guild.
 | `npm run flush-commands` | Reset global and guild commands. Don't run this if you don't know what you're doing. It takes around an hour for the changes to reflect on Discord's end.
+
+## Contributing
+
+Please follow these guidelines!
+
+* Follow the [Conventional Commits guide](https://www.conventionalcommits.org)
+
+### Directory Structure
+
+```diff
+📂 dimwit
+↳ assets/           # miscellaneous assets that are
+                        # not required in the code
+    ↳ logos/        # a collection of logos
+↳ bin/              # miscellaneous scripts
+↳ src/              # source code
+    ↳ assets/       # assets that are required in code
+    ↳ commands/     # source code of each command
+    ↳ modules/      # functions and other code used by
+                        # multiple files
+    ↳ index.js      # main discord.js manager
+    ↳ config.json   # configuration file
+```

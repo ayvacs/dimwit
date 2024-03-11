@@ -2,7 +2,8 @@
 
     index.js
 
-    Backbone
+    The bot's main script that registers a Client, finds, builds, and registers
+    each command to the Client, handles command parsing, and manages statuses.
 
 
 
@@ -53,7 +54,7 @@ const commandFolders = fs.readdirSync(foldersPath);
 for (const folder of commandFolders) {
     const commandsPath = path.join(foldersPath, folder);
     const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"));
-    
+
     for (const file of commandFiles) {
         const filePath = path.join(commandsPath, file);
         const command = require(filePath);
@@ -76,7 +77,7 @@ for (const folder of commandFolders) {
 client.on(Events.InteractionCreate, async interaction => {
     // Do not reply to interactions that are not slash commands or context menu commands
     if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
-    
+
     const command = interaction.client.commands.get(interaction.commandName);
 
     if (!command) {

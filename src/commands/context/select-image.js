@@ -44,7 +44,7 @@ module.exports = {
         await interaction.deferReply({ ephemeral: true });
 
         // Ensure that the message still exists
-        if (interaction.targetMessage == null) {
+        if (interaction.targetMessage === null) {
             await interaction.editReply({
                 ephemeral: true,
                 embeds: [createEmbed.warning("To use this command, you'll need to right-click on an image and click the \"Apps\" button.")]
@@ -54,7 +54,7 @@ module.exports = {
 
         // TODO: add support for multiple attachments
         const attachment = interaction.targetMessage.attachments.at(0);
-        if (attachment == null) {
+        if (attachment === null) {
             await interaction.editReply({
                 ephemeral: true,
                 embeds: [createEmbed.error("I can't find an attachment in this message!")]

@@ -109,7 +109,7 @@ module.exports = {
         // Create a new attachment to reply with
         await interaction.editReply({files: [
             new AttachmentBuilder(
-                doGif ? canvasToGIFstream(canvas, doTransparent) : await canvas.encode("png"),
+                doGif ? canvasToGIFstream(canvas, false) : await canvas.encode("png"),
                 { name: doGif ? "processed.gif" : "processed.png" }
             )
         ]})

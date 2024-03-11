@@ -43,6 +43,7 @@ module.exports = {
         // Let Discord know the interaction was received
         await interaction.deferReply({ ephemeral: true });
 
+        // Ensure that the message still exists
         if (interaction.targetMessage == null) {
             await interaction.editReply({
                 ephemeral: true,
@@ -51,7 +52,7 @@ module.exports = {
             return;
         }
 
-        const senderId = interaction.user.id;
+        // TODO: add support for multiple attachments
         const attachment = interaction.targetMessage.attachments.at(0);
         if (attachment == null) {
             await interaction.editReply({
@@ -61,11 +62,19 @@ module.exports = {
             return;
         }
 
-        setUser(senderId, "savedImage", attachment)
-
-        await interaction.editReply({
-            ephemeral: true,
-            embeds: [createEmbed.affirm("Got it! This image will be used for your next message, unless you upload a different one.")]
-        });
+        try {
+            setUser(interaction.user.id, "savedImage", attachment);
+    
+            await interaction.editReply({
+                ephemeral: true,
+                embeds: [createEmbed.affirm("Got it! This image will be used for your next message, unless you upload a different one.")]
+            });
+        } catch (error) {
+            console.error(error);
+            await interaction.editReply({
+                embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")],
+                ephemeral: true
+            });
+        }
     }
 }

@@ -62,15 +62,19 @@ module.exports = {
         // Get attachment
         let attachment;
         if (interaction.options.getAttachment("image")) {
+            // If an attachment was provided by the user in the commandbox
             attachment = interaction.options.getAttachment("image");
         } else {
+            // Otherwise, check if the user has used select-image
             let result = getUser(interaction.user.id, "savedImage", true);
             if (result == null) {
+                // No image was provided
                 await interaction.editReply({
                     embeds: [createEmbed.error("You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.")]
                 });
                 return;
             } else {
+                // An image is present in the usercache
                 attachment = result;
             }
         }

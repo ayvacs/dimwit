@@ -27,45 +27,43 @@
 
 
 
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require("discord.js");
 
 
-const self = {};
+module.exports = {
 
-// WHITE: For general messages
-self.message = function(text, title) {
-    // Create a blank embed first and replace the values provided by the user after.
-    const embed = new EmbedBuilder()
-        .setDescription(text ? text : "?")
-        .setColor("#FFFFFF");
+    // WHITE: For general messages
+    message: function(text, title) {
+        const embed = new EmbedBuilder()
+            .setDescription(text ? text : "?")
+            .setColor("#FFFFFF");
 
-    if (title != null)
-        embed.setTitle(title);
+        if (title != null)
+            embed.setTitle(title);
 
-    return embed;
+        return embed;
+    },
+
+    // ORANGE: For warnings
+    warning: function(text, title) {
+        return this.message(text, title)
+            .setColor("#EB9634");
+    },
+
+    // RED: For errors
+    error: function(text, title) {
+        return this.message(text)
+            .setTitle(title ? title : "Oops, there was an error!")
+            .setColor("#EB4034")
+            .setFooter({
+                "text": "If you didn't do anything wrong, you can report a bug by running /bug"
+            });
+    },
+
+    // GREEN: For confirmation
+    affirm: function(text) {
+        return this.message(text)
+            .setColor("#34EB4C");
+    }
+
 }
-
-// ORANGE: For warnings
-self.warning = function(text, title) {
-    return self.message(text, title)
-        .setColor("#EB9634");
-}
-
-// RED: For errors
-self.error = function(text, title) {
-    return self.message(text)
-        .setTitle(title ? title : "Oops, there was an error!")
-        .setColor("#EB4034")
-        .setFooter({
-            "text": "If you didn't do anything wrong, you can report a bug by running /bug"
-        });
-}
-
-// GREEN: For confirmation
-self.affirm = function(text) {
-    return self.message(text)
-        .setColor("#34EB4C");
-}
-
-
-module.exports = self;

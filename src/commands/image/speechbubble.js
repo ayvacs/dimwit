@@ -55,25 +55,29 @@ module.exports = {
         await interaction.deferReply();
 
         // Configuration
+        const bubbleHeight = (1/5) // the fraction of the image that the speechbubble should take up
         const doTransparent = interaction.options.getBoolean("transparent") 
         const doGif = interaction.options.getBoolean("gif")
 
         // Get attachment
         let attachment;
         if (interaction.options.getAttachment("image")) {
+            // If an attachment was provided by the user in the commandbox
             attachment = interaction.options.getAttachment("image");
         } else {
+            // Otherwise, check if the user has used select-image
             let result = getUser(interaction.user.id, "savedImage", true);
             if (result == null) {
+                // No image was provided
                 await interaction.editReply({
                     embeds: [createEmbed.error("You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.")]
                 });
                 return;
             } else {
+                // An image is present in the usercache
                 attachment = result;
             }
         }
-
         // Make sure the attachment is an image
         if (attachment.width == null || attachment.height == null) {
             await interaction.editReply({
@@ -92,7 +96,7 @@ module.exports = {
 
         // Add the speechbubble on top
         const bubble = await Canvas.loadImage(`${__dirname}/../../assets/images/speechbubble.png`);
-        context.drawImage(bubble, 0, 0, canvas.width, (canvas.height / 5));
+        context.drawImage(bubble, 0, 0, canvas.width, (canvas.height * bubbleHeight));
 
         // If necessary, delete pixels inside the speech bubble shape
         if (doTransparent) {
@@ -100,7 +104,7 @@ module.exports = {
             context.globalCompositeOperation = "destination-out";
 
             const mask = await Canvas.loadImage(`${__dirname}/../../assets/images/speechbubble_mask.png`);
-            context.drawImage(mask, 0, 0, canvas.width, (canvas.height / 5));
+            context.drawImage(mask, 0, 0, canvas.width, (canvas.height * bubbleHeight));
 
             // Tell Canvas to stop deleting pixels
             context.globalCompositeOperation = "source-over";

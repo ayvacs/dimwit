@@ -30,7 +30,7 @@
 
 
 
-const userCache = {};
+const cacheObject = {};
 
 
 module.exports = {
@@ -40,16 +40,18 @@ module.exports = {
         if (id.toString() == null)
             return null;
 
+        id = id.toString();
+
         // Make sure the data exists
-        if (userCache[id] == null || userCache[id][scope] == null)
+        if (cacheObject[id] == null || cacheObject[id][scope] == null)
             return null;
 
         // Get the data
-        const result = userCache[id][scope];
+        const result = cacheObject[id][scope];
 
         // If necessary, clear scope after use
         if (clearAfter)
-            userCache[id][scope] = null;
+            cacheObject[id][scope] = null;
         
         return result;
     },
@@ -60,10 +62,10 @@ module.exports = {
             return null;
 
         // Make sure an empty object exists for this user
-        if (userCache[id] == null)
-            userCache[id] = {};
+        if (cacheObject[id] == null)
+            cacheObject[id] = {};
 
         // Set the data
-        userCache[id][scope] = data
+        cacheObject[id][scope] = data;
     }
 };

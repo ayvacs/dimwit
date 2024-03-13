@@ -60,7 +60,7 @@ module.exports = {
         const doGif = interaction.options.getBoolean("gif");
 
         // This is so hacky and stupid but whatever
-        if (userText === null || str.length == 0) {
+        if (userText === null || userText.length == 0) {
             await interaction.editReply({
                 embeds: [createEmbed.error("You haven't input any text!")]
             });

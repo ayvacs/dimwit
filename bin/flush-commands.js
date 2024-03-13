@@ -29,15 +29,20 @@
 
 
 
-const { guildId } = require("../config.json");
+const { REST, Routes } = require("discord.js");
+const { clientId, guildId, token } = require("../config.json");
+
+const rest = new REST().setToken(token);
 
 
-
-// Create a new client
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // Flush guild commands (immediate)
-client.guilds.cache.get(guildId).commands.set([]);
+rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: [] })
+    .then(() => console.log("Successfully deleted all guild commands"))
+    .catch(console.error);
 
-// Flush application commands (~1 hour)
-client.application.commands.set([]);
+
+// Flush global commands (~1 hour)
+rest.put(Routes.applicationCommands(clientId, guildId), { body: [] })
+    .then(() => console.log("Successfully deleted all global commands"))
+    .catch(console.error);

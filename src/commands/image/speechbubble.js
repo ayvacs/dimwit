@@ -68,15 +68,15 @@ module.exports = {
             // Otherwise, check if the user has used select-image
             let result = getUser(interaction.user.id, "savedImage", true);
             if (result === null) {
-                // No image was provided
+                // No image was provided at all
                 await interaction.editReply({
                     embeds: [createEmbed.error("You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.")]
                 });
                 return;
-            } else {
-                // An image is present in the usercache
-                attachment = result;
             }
+
+            // An image is present in the usercache
+            attachment = result;
         }
         // Make sure the attachment is an image
         if (attachment.width === null || attachment.height === null) {

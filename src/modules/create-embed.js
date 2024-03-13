@@ -33,12 +33,12 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
 
     // WHITE: For general messages
-    message: function(text, title) {
+    message: function(text, title = null) {
         const embed = new EmbedBuilder()
             .setDescription(text ? text : "?")
             .setColor("#FFFFFF");
 
-        if (title != null)
+        if (title !== null)
             embed.setTitle(title);
 
         return embed;
@@ -51,9 +51,8 @@ module.exports = {
     },
 
     // RED: For errors
-    error: function(text, title) {
-        return this.message(text)
-            .setTitle(title ? title : "Oops, there was an error!")
+    error: function(text, title = "Oops, there was an error!") {
+        return this.message(text, title)
             .setColor("#EB4034")
             .setFooter({
                 "text": "If you didn't do anything wrong, you can report a bug by running /bug"

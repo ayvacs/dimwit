@@ -37,8 +37,7 @@ module.exports = function(canvas, enableTransparency) {
     // Begin encoding with these settings
     encoder.start();
     encoder.setRepeat(-1);   // 0 for repeat, -1 for no-repeat
-    if (enableTransparency)
-        encoder.setTransparent(true);
+    encoder.setTransparent(enableTransparency ? true : false);
 
     // Read the frame to the encoder and close it
     encoder.addFrame(canvas.getContext("2d"));

@@ -34,7 +34,7 @@ const wait = require("node:timers/promises").setTimeout;
 
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
 
-const config = require("./config.json");
+const config = require("../config.json");
 const statuses = require("./assets/statuses.json").messages;
 const createEmbed = require("./modules/create-embed.js");
 

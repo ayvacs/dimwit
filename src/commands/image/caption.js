@@ -46,7 +46,7 @@ module.exports = {
         .addStringOption(option => option
             .setName("text")
             .setDescription("The caption text")
-            .setRequired(true))
+            .setRequired(false)) // should probably be true, but then it would have to go before image, and that looks weird.
         .addBooleanOption(option => option
             .setName("gif")
             .setDescription("Force the output image to be a GIF")),
@@ -58,6 +58,14 @@ module.exports = {
         // Configuration
         const userText = interaction.options.getString("text");
         const doGif = interaction.options.getBoolean("gif");
+
+        // This is so hacky and stupid but whatever
+        if (userText === null || str.length == 0) {
+            await interaction.editReply({
+                embeds: [createEmbed.error("You haven't input any text!")]
+            });
+            return;
+        }
 
         // Get attachment
         let attachment;

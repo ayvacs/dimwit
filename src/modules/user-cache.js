@@ -37,13 +37,13 @@ module.exports = {
 
     getUser: function(id, scope, clearAfter) {
         // Verify input
-        if (id.toString() === null)
+        if (id.toString() == null)
             return null;
 
         id = id.toString();
 
         // Make sure the data exists
-        if (cacheObject[id] === null || cacheObject[id][scope] === null)
+        if (!(id in cacheObject) || !(scope in cacheObject[id]))
             return null;
 
         // Get the data
@@ -58,11 +58,11 @@ module.exports = {
 
     setUser: function (id, scope, data) {
         // Verify input
-        if (id.toString() === null)
+        if (id.toString() == null)
             return null;
 
         // Make sure an empty object exists for this user
-        if (cacheObject[id] === null)
+        if (!(id in cacheObject))
             cacheObject[id] = {};
 
         // Set the data

@@ -4,6 +4,9 @@
     "description": "",
     "main": "src/index.js",
     "scripts": {
+        "start": "node ./dist/index.js",
+        "postinstall": "tsc",
+        "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
         "deploy-commands-global": "node ./bin/deploy-commands-global.js",
         "deploy-commands-guild": "node ./bin/deploy-commands-guild.js",
         "deploy-commands": "npm run deploy-commands-guild && npm run deploy-commands-global",

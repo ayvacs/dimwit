@@ -49,6 +49,7 @@ You may also want to add the following information, which is not required for th
 
 | Command | Details |
 | - | - |
+| `npm run build` | Compile all .ts files in `src/` to .js files in `dist/`. This will clear everything in the `dist/` folder first. |
 | `npm run deploy-commands` | Refresh commands for the testing guild (as defined in `config.json`) then all guilds. Should be ran only after testing has been completed in a private guild. |
 | `npm run deploy-commands-guild` | Refresh commands for the testing guild (as defined in `config.json`). |
 | `npm run deploy-commands-global` | Refresh commands for all guilds. Should be ran only after testing has been completed in a private guild.

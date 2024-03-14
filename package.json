@@ -8,10 +8,10 @@
         "start": "node ./dist/index.js",
 
         "prebuild": "rimraf ./dist",
-        "build": "npm run compile && npm run copy-assets",
+        "build": "npm run build:compile && npm run build:copy-assets",
 
-        "compile": "tsc",
-        "copy-assets": "copyfiles --all --up 1 --exclude \"./**/*.{ts,tsx}\" \"./src/**/*\" ./dist",
+        "build:compile": "tsc",
+        "build:copy-assets": "copyfiles --all --up 1 --exclude \"./**/*.{ts,tsx}\" \"./src/**/*\" ./dist",
         
         "deploy-commands-global": "node ./bin/deploy-commands-global.js",
         "deploy-commands-guild": "node ./bin/deploy-commands-guild.js",

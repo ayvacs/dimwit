@@ -16,17 +16,22 @@
 
 ## About
 
-Mess around with images and GIFs on Discord! Dimwit is a Discord.js bot that introduces numerous funny image-related commands.
+Mess around with images and GIFs on Discord! Dimwit is a Discord bot that introduces numerous funny image-related commands. Written in TypeScript.
 
-## Dependencies
+## Hosting
+
+### Requirements
 
 * `node.js` (≥ 20.11.0)
 * `npm` (≥ 10.2.4)
-* `discord.js` ([source](https://github.com/discordjs/discord.js)) - A powerful Node.js module for interacting with the Discord API
-* `gifencoder` ([source](https://www.npmjs.com/package/gifencoder)) - A GIF generation module for Node.js
-* `@napi-rs/canvas` ([source](https://github.com/Brooooooklyn/canvas)) - An image manipulation tool that enables many of Dimwit's image commands
 
-## Hosting
+### Build and run
+
+* **Install dependencies:** `npm install`
+
+* **Build JS files:** `npm run build`
+
+* **Run:** `npm start`
 
 ### Configuration
 
@@ -40,7 +45,7 @@ You may also want to add the following information, which is not required for th
 
 * `inviteLink`: A URL that people can use to add the bot to the server (it is recommended to use `277025770496` for permissions and `bot+applications.commands` for scope)
 
-### Node commands
+## Node commands
 
 | Command | Details |
 | - | - |

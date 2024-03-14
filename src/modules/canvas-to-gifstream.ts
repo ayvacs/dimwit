@@ -1,6 +1,6 @@
 /*
 
-    canvas-to-gifstream.js
+    canvas-to-gifstream.ts
 
     Module exporting a single function that converts a Canvas instance into a
     GIF stream that can be then uploaded to Discord or saved to disk.

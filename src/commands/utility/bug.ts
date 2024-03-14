@@ -1,6 +1,6 @@
 /*
 
-    bug.js
+    bug.ts
 
     A command file
 

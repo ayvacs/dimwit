@@ -1,6 +1,6 @@
 /*
 
-    speechbubble.js
+    speechbubble.ts
 
     A command file
 

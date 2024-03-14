@@ -1,6 +1,6 @@
 /*
 
-    index.js
+    index.ts
 
     The bot's main script that registers a Client, finds, builds, and registers
     each command to the Client, handles command parsing, and manages statuses.

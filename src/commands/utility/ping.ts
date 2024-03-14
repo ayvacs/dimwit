@@ -1,6 +1,6 @@
 /*
 
-    ping.js
+    ping.ts
 
     A command file
 

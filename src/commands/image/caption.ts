@@ -1,6 +1,6 @@
 /*
 
-    caption.js
+    caption.ts
 
     A command file
 

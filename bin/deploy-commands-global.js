@@ -41,7 +41,7 @@ const commands = [];
 
 // Loop through each file in the "commands" folder and its subfolders
 
-const foldersPath = path.join(__dirname, "../src/commands");
+const foldersPath = path.join(__dirname, "../dist/commands");
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {

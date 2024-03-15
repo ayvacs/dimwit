@@ -37,6 +37,7 @@ const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require(
 const config = require("../config.json");
 const statuses = require("./assets/statuses.json").messages;
 const createEmbed = require("./modules/create-embed.js");
+const print = require("./modules/print.js");
 
 
 // Create a new client
@@ -60,9 +61,9 @@ for (const folder of commandFolders) {
         // Set a new item in the client.commands Collection with the key as the command name and the value as the exported module
         if ("data" in command && "execute" in command) {
             client.commands.set(command.data.name, command);
-            console.log(`Successfully added command "${command.data.name}"`);
+            print.log("Command-Collector", `Successfully collected command: ${command.data.name}`);
         } else {
-            console.log(`[WARNING] The command at ${filePath} is missing a required "data" and/or "execute" property.`);
+            print.warn("Command-Collector", `The command at ${filePath} is mising a required "data" and/or "execute" property and has been skipped.`);
         }
     }
 }
@@ -80,7 +81,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
     // This should probably never happen
     if (!command) {
-        console.error(`No command matching ${interaction.commandName} was found.`);
+        print.error("Command-Handler", `No command matching ${interaction.commandName} was found.`);
         return;
     }
 
@@ -116,10 +117,9 @@ client.once(Events.ClientReady, async readyClient => {
         let current = exclude;
 
         while (current == exclude) {
-            current = statuses[Math.round(Math.random() * statuses.length)];
+            current = statuses[Math.floor(Math.random() * statuses.length)];
         }
-
-        console.log(`Changing status to "Playing ${current}"`);
+        print.log("Client", `Changing status to "Playing ${current}"`);
         readyClient.user.setPresence({
             status: "dnd",
             activities: [{
@@ -132,7 +132,7 @@ client.once(Events.ClientReady, async readyClient => {
     }
 
     // Log when the client is ready
-    console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+    print.log("Client", `Ready! Logged in as ${readyClient.user.tag}`);
 
     // Choose an initial status
     let currentStatus = setStatusMessage();

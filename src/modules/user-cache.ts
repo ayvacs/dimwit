@@ -30,8 +30,9 @@
 
 
 
-const cacheObject = {};
+const print = require("./print.js");
 
+const cacheObject = {};
 
 module.exports = {
 
@@ -48,6 +49,7 @@ module.exports = {
 
         // Get the data
         const result = cacheObject[id][scope];
+        print.log("User-Cache", `got ${String(result)} at ${String(scope)} scope for user ${String(id)}.`)
 
         // If necessary, clear scope after use
         if (clearAfter)
@@ -67,6 +69,7 @@ module.exports = {
 
         // Set the data
         cacheObject[id][scope] = data;
+        print.log("User-Cache", `put [${String(data)}] at ${String(scope)} scope for user ${String(id)}.${cacheObject[id][scope] === data ? "" : " ERROR!"}`)
 
         return undefined;
     }

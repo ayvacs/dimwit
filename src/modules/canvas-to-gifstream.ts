@@ -27,9 +27,10 @@
 
 
 const GIFEncoder = require("gifencoder");
+const print = require("./print.js");
 
 
-module.exports = function(canvas, enableTransparency) {
+module.exports = function(canvas, enableTransparency = false) {
     // Create a GIFEncoder with the same width and height as the Canvas, and create its read stream
     const encoder = new GIFEncoder(canvas.width, canvas.height);
     const stream = encoder.createReadStream();
@@ -42,6 +43,9 @@ module.exports = function(canvas, enableTransparency) {
     // Read the frame to the encoder and close it
     encoder.addFrame(canvas.getContext("2d"));
     encoder.finish();
+
+    // Log the info
+    print.log("Canvas-to-GIFStream", `converted [canvas: ${String(canvas)}] [transparent? ${String(enableTransparency)}]`)
 
     return stream;
 }

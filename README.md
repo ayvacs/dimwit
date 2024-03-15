@@ -45,12 +45,12 @@ You may also want to add the following information, which is not required for th
 
 * `inviteLink`: A URL that people can use to add the bot to the server (it is recommended to use `277025770496` for permissions and `bot+applications.commands` for scope)
 
-## Node commands
+## Node scripts
 
 | Command | Details |
 | - | - |
 | `npm run build` | Compile all .ts files in `src/` to .js files in `dist/`. This will clear everything in the `dist/` folder first. |
-| `npm run deploy-commands` | Refresh commands for the testing guild (as defined in `config.json`) then all guilds. Should be ran only after testing has been completed in a private guild. |
-| `npm run deploy-commands-guild` | Refresh commands for the testing guild (as defined in `config.json`). |
-| `npm run deploy-commands-global` | Refresh commands for all guilds. Should be ran only after testing has been completed in a private guild.
-| `npm run flush-commands` | Reset global and guild commands. Don't run this if you don't know what you're doing. It takes around an hour for the changes to reflect on Discord's end.
+| `npm run deploy-commands` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for the testing guild (as defined in `config.json`) then all guilds. Should be ran only after testing has been completed in a private guild. |
+| `npm run deploy-commands-guild` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for the testing guild (as defined in `config.json`). |
+| `npm run deploy-commands-global` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for all guilds. Should be ran only after testing has been completed in a private guild. |
+| `npm run flush-commands` | Reset global and guild commands. |

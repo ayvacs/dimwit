@@ -1,6 +1,6 @@
 /*
 
-    create-embed.js
+    create-embed.ts
 
     Module exporting various functions to create Embeds based on the user's
     specifications. Intended to be an easy way for all embeds created by the bot

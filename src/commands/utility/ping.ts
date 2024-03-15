@@ -1,10 +1,11 @@
 /*
 
-    bug.js
+    ping.ts
 
     A command file
 
-    Provides the user with a link to report a bug on GitHub
+    A simple command that reports the user's latency. It also functions as a
+    quick test to ensure the bot is working properly.
 
 
 
@@ -27,26 +28,25 @@
 
 
 
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
 const createEmbed = require("../../modules/create-embed.js");
 
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("bug")
-        .setDescription("Found a bug? Report it here!"),
+        .setName("ping")
+        .setDescription("Measure your latency"),
     
     async execute(interaction) {
-        await interaction.reply({
+        const message = await interaction.reply({
             ephemeral: true,
-            embeds: [createEmbed.message("We're trying our best to build a high-quality bot. Your bug reports are greatly appreciated!", "Found a bug?")],
-            components: [
-                new ActionRowBuilder()
-                    .addComponents(new ButtonBuilder()
-                        .setLabel("Open GitHub")
-                        .setURL("https://github.com/ayvacs/dimwit/issues/new")
-                        .setStyle(ButtonStyle.Link))
-            ]
+            fetchReply: true,
+            embeds: [createEmbed.message("🏓 Pong?")]
+        });
+
+        await interaction.editReply({
+            ephemeral: true,
+            embeds: [createEmbed.affirm(`🏓 Pong! Your latency is ${Date.now() - interaction.createdTimestamp}ms.`)]
         });
     }
 }

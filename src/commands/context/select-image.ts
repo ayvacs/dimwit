@@ -1,6 +1,6 @@
 /*
 
-    select-image.js
+    select-image.ts
 
     A context menu command file
 

@@ -14,3 +14,7 @@ config.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+
+# TypeScript stuff
+dist/

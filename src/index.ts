@@ -1,6 +1,6 @@
 /*
 
-    index.js
+    index.ts
 
     The bot's main script that registers a Client, finds, builds, and registers
     each command to the Client, handles command parsing, and manages statuses.
@@ -112,11 +112,11 @@ client.on(Events.InteractionCreate, async interaction => {
 client.once(Events.ClientReady, async readyClient => {
 
     // Function to change the presence, returning the choice, and optionally providing a specific status to ignore.
-    function setStatusMessage(exclude) {
+    function setStatusMessage(exclude = "") {
         let current = exclude;
 
         while (current == exclude) {
-            current = statuses[parseInt(Math.random() * statuses.length)];
+            current = statuses[Math.round(Math.random() * statuses.length)];
         }
 
         console.log(`Changing status to "Playing ${current}"`);

@@ -1,6 +1,6 @@
 /*
 
-    user-cache.js
+    user-cache.ts
 
     Provides methods for scripts to access and mutate a UserCache
 

@@ -1,3 +1,0 @@
-npm install copyfiles rimraf
-npm i typescript ts-node ts-node-dev @types/node @types/express
-npm i -g typescript ts-node

@@ -27,6 +27,7 @@
 
 
 
+import type { ChatInputCommandInteraction } from "discord.js";
 const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
 
@@ -51,7 +52,7 @@ module.exports = {
             .setName("gif")
             .setDescription("Force the output image to be a GIF")),
     
-    async execute(interaction) {
+    async execute(interaction: ChatInputCommandInteraction) {
         // Let Discord know the interaction was received
         await interaction.deferReply();
 

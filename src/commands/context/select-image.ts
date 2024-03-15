@@ -28,6 +28,7 @@
 
 
 
+import type { MessageContextMenuCommandInteraction } from "discord.js";
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js");
 const createEmbed = require("../../modules/create-embed.js");
 const { setUser } = require("../../modules/user-cache.js");
@@ -39,14 +40,13 @@ module.exports = {
         .setType(ApplicationCommandType.Message),
 
     
-    async execute(interaction) {
+    async execute(interaction: MessageContextMenuCommandInteraction) {
         // Let Discord know the interaction was received
         await interaction.deferReply({ ephemeral: true });
 
         // Ensure that the message still exists
-        if (interaction.targetMessage === null) {
+        if (interaction.targetMessage == null) {
             await interaction.editReply({
-                ephemeral: true,
                 embeds: [createEmbed.warning("To use this command, you'll need to right-click on an image and click the \"Apps\" button.")]
             });
             return;
@@ -54,9 +54,8 @@ module.exports = {
 
         // TODO: add support for multiple attachments
         const attachment = interaction.targetMessage.attachments.at(0);
-        if (attachment === null) {
+        if (attachment == null) {
             await interaction.editReply({
-                ephemeral: true,
                 embeds: [createEmbed.error("I can't find an attachment in this message!")]
             });
             return;
@@ -66,14 +65,12 @@ module.exports = {
             setUser(interaction.user.id, "savedImage", attachment);
     
             await interaction.editReply({
-                ephemeral: true,
                 embeds: [createEmbed.affirm("Got it! This image will be used for your next message, unless you upload a different one.")]
             });
         } catch (error) {
             console.error(error);
             await interaction.editReply({
-                embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")],
-                ephemeral: true
+                embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")]
             });
         }
     }

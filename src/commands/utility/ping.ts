@@ -28,6 +28,7 @@
 
 
 
+import type { ChatInputCommandInteraction } from "discord.js";
 const { SlashCommandBuilder } = require("discord.js");
 const createEmbed = require("../../modules/create-embed.js");
 
@@ -37,7 +38,7 @@ module.exports = {
         .setName("ping")
         .setDescription("Measure your latency"),
     
-    async execute(interaction) {
+    async execute(interaction: ChatInputCommandInteraction) {
         const message = await interaction.reply({
             ephemeral: true,
             fetchReply: true,
@@ -45,7 +46,6 @@ module.exports = {
         });
 
         await interaction.editReply({
-            ephemeral: true,
             embeds: [createEmbed.affirm(`🏓 Pong! Your latency is ${Date.now() - interaction.createdTimestamp}ms.`)]
         });
     }

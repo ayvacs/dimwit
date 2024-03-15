@@ -27,6 +27,7 @@
 
 
 
+import type { ChatInputCommandInteraction } from "discord.js";
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require("discord.js");
 const createEmbed = require("../../modules/create-embed.js");
 
@@ -36,7 +37,7 @@ module.exports = {
         .setName("bug")
         .setDescription("Found a bug? Report it here!"),
     
-    async execute(interaction) {
+    async execute(interaction: ChatInputCommandInteraction) {
         await interaction.reply({
             ephemeral: true,
             embeds: [createEmbed.message("We're trying our best to build a high-quality bot. Your bug reports are greatly appreciated!", "Found a bug?")],

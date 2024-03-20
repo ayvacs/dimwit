@@ -22,9 +22,8 @@ Mess around with images and GIFs on Discord! Dimwit is a Discord bot that introd
 
 ### Requirements
 
-* `node.js` (≥ 20.11.0)
+* `node.js` (≥ 20.11.1)
 * `npm` (≥ 10.2.4)
-* `typescript` (≥ 5.4.2)
 
 ### Build and run
 

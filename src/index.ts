@@ -132,7 +132,7 @@ client.once(Events.ClientReady, async readyClient => {
     }
 
     // Log when the client is ready
-    print.log("Client", `Ready! Logged in as ${readyClient.user.tag}`);
+    print.affirm("Client", `Ready! Logged in as ${readyClient.user.tag}`);
 
     // Choose an initial status
     let currentStatus = setStatusMessage();

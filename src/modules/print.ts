@@ -30,19 +30,24 @@
 
 module.exports = {
 
-    // print (equal to console.log)
+    // print (white)
     log: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
         console.log(`${doColors ? "\x1b[0m" : ""}  ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
     },
 
-    // warn (equal to console.warn)
+    // warn (yellow)
     warn: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
         console.warn(`${doColors ? "\x1b[0m\x1b[31m" : ""}? ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
     },
 
-    // error (equal to console.error)
+    // error (red)
     error: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
         console.error(`${doColors ? "\x1b[0m\x1b[33m" : ""}! ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
+    },
+
+    // affirm (green)
+    affirm: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
+        console.error(`${doColors ? "\x1b[0m\x1b[32m" : ""}✓ ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
     }
 
 }

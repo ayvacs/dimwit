@@ -26,21 +26,23 @@
 
 
 
+// I am so sorry to anyone who has to read this
+
 module.exports = {
 
     // print (equal to console.log)
-    log: function(serviceName: string = "Global", text: string = "") {
-        console.log(`  ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
+    log: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
+        console.log(`${doColors ? "\x1b[0m" : ""}  ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
     },
 
-    // print (equal to console.warn)
-    warn: function(serviceName: string = "Global", text: string = "") {
-        console.warn(`? ${new Date().toLocaleString()}  |  ${serviceName}  |  [WARNING] ${text}`);
+    // warn (equal to console.warn)
+    warn: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
+        console.warn(`${doColors ? "\x1b[0m\x1b[31m" : ""}? ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
     },
 
-    // print (equal to console.error)
-    error: function(serviceName: string = "Global", text: string = "") {
-        console.error(`! ${new Date().toLocaleString()}  |  ${serviceName}  |  [ERROR] ${text}`);
+    // error (equal to console.error)
+    error: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
+        console.error(`${doColors ? "\x1b[0m\x1b[33m" : ""}! ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
     }
 
 }

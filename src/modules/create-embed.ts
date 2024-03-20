@@ -33,9 +33,9 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
 
     // WHITE: For general messages
-    message: function(text, title = null) {
+    message: function(text: string = "?", title: string = null): typeof EmbedBuilder {
         const embed = new EmbedBuilder()
-            .setDescription(text ? text : "?")
+            .setDescription(text)
             .setColor("#FFFFFF");
 
         if (title !== null)
@@ -45,13 +45,13 @@ module.exports = {
     },
 
     // ORANGE: For warnings
-    warning: function(text, title) {
+    warning: function(text: string, title: string): typeof EmbedBuilder {
         return this.message(text, title)
             .setColor("#EB9634");
     },
 
     // RED: For errors
-    error: function(text, title = "Oops, there was an error!") {
+    error: function(text: string, title: string = "Oops, there was an error!"): typeof EmbedBuilder {
         return this.message(text, title)
             .setColor("#EB4034")
             .setFooter({
@@ -60,7 +60,7 @@ module.exports = {
     },
 
     // GREEN: For confirmation
-    affirm: function(text) {
+    affirm: function(text: string): typeof EmbedBuilder {
         return this.message(text)
             .setColor("#34EB4C");
     }

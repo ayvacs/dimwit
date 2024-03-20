@@ -29,17 +29,17 @@
 module.exports = {
 
     // print (equal to console.log)
-    log: function(serviceName = "Global", text = "") {
+    log: function(serviceName: string = "Global", text: string = "") {
         console.log(`  ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
     },
 
     // print (equal to console.warn)
-    warn: function(serviceName = "Global", text = "") {
+    warn: function(serviceName: string = "Global", text: string = "") {
         console.warn(`? ${new Date().toLocaleString()}  |  ${serviceName}  |  [WARNING] ${text}`);
     },
 
     // print (equal to console.error)
-    error: function(serviceName = "Global", text = "") {
+    error: function(serviceName: string = "Global", text: string = "") {
         console.error(`! ${new Date().toLocaleString()}  |  ${serviceName}  |  [ERROR] ${text}`);
     }
 

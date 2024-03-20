@@ -88,7 +88,7 @@ client.on(Events.InteractionCreate, async interaction => {
     try {
         await command.execute(interaction);
     } catch (error) {
-        console.error(error);
+        print.error("Command-Handler", error);
         if (interaction.replied || interaction.deferred) {
             await interaction.followUp({
                 embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")],
@@ -113,7 +113,7 @@ client.on(Events.InteractionCreate, async interaction => {
 client.once(Events.ClientReady, async readyClient => {
 
     // Function to change the presence, returning the choice, and optionally providing a specific status to ignore.
-    function setStatusMessage(exclude = "") {
+    function setStatusMessage(exclude: string = ""): string {
         let current = exclude;
 
         while (current == exclude) {

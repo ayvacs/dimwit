@@ -26,11 +26,12 @@
 
 
 
+const Canvas = require("@napi-rs/canvas");
 const GIFEncoder = require("gifencoder");
 const print = require("./print.js");
 
 
-module.exports = function(canvas, enableTransparency = false) {
+module.exports = function(canvas: typeof Canvas, enableTransparency: boolean = false): typeof stream {
     // Create a GIFEncoder with the same width and height as the Canvas, and create its read stream
     const encoder = new GIFEncoder(canvas.width, canvas.height);
     const stream = encoder.createReadStream();

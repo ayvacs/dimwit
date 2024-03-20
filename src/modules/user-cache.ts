@@ -5,9 +5,9 @@
     Provides methods for scripts to access and mutate a UserCache
 
     The UserCache is an object stored in memory that can be used to communicate
-    information across scripts. Values are stored and retrieved using both an
-    "id" (the ID of the Discord user) and a "scope" (the name of the field you
-    wish to retrieve; sort of like the key in an object).
+    information across scripts. Values are stored and retrieved using both a
+    "userId" (the ID of the Discord user) and a "scope" (the name of the field
+    you wish to retrieve; sort of like the key in an object).
 
 
 
@@ -32,45 +32,48 @@
 
 const print = require("./print.js");
 
-const cacheObject = {};
+const cacheObject: {
+    [userId: number]: {
+        [scope: string]: any
+    }
+} = {};
+print.log("User-Cache", "Instantiated cache object");
 
 module.exports = {
 
-    getUser: function(id, scope, clearAfter) {
+    getUser: function(userId: number, scope: string, clearAfter: boolean): any {
         // Verify input
-        if (id.toString() === null)
+        if (userId.toString() === null)
             return null;
 
-        id = id.toString();
-
         // Make sure the data exists
-        if (!(id in cacheObject) || !(scope in cacheObject[id]))
+        if (!(userId in cacheObject) || !(scope in cacheObject[userId]))
             return null;
 
         // Get the data
-        const result = cacheObject[id][scope];
-        print.log("User-Cache", `got ${String(result)} at ${String(scope)} scope for user ${String(id)}.`)
+        const result = cacheObject[userId][scope];
+        print.log("User-Cache", `got ${String(result)} at ${String(scope)} scope for user ${String(userId)}.`)
 
         // If necessary, clear scope after use
         if (clearAfter)
-            cacheObject[id][scope] = null;
+            cacheObject[userId][scope] = null;
         
         return result;
     },
 
-    setUser: function (id, scope, data) {
+    setUser: function (userId: number, scope: string, data: any): null {
         // Verify input
-        if (id.toString() === null)
+        if (userId.toString() === null)
             return null;
 
         // Make sure an empty object exists for this user
-        if (!(id in cacheObject))
-            cacheObject[id] = {};
+        if (!(userId in cacheObject))
+            cacheObject[userId] = {};
 
         // Set the data
-        cacheObject[id][scope] = data;
-        print.log("User-Cache", `put [${String(data)}] at ${String(scope)} scope for user ${String(id)}.${cacheObject[id][scope] === data ? "" : " ERROR!"}`)
+        cacheObject[userId][scope] = data;
+        print.log("User-Cache", `put [${String(data)}] at ${String(scope)} scope for user ${String(userId)}.${cacheObject[userId][scope] === data ? "" : " ERROR!"}`)
 
-        return undefined;
+        return null;
     }
 };

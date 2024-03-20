@@ -37,17 +37,17 @@ module.exports = {
 
     // warn (yellow)
     warn: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
-        console.warn(`\x1b[0m${doColors ? "\x1b[31m" : ""}? ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
+        console.warn(`\x1b[0m${doColors ? "\x1b[31m" : ""}? ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
     },
 
     // error (red)
     error: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
-        console.error(`\x1b[0m${doColors ? "\x1b[33m" : ""}! ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
+        console.error(`\x1b[0m${doColors ? "\x1b[33m" : ""}! ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
     },
 
     // affirm (green)
     affirm: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
-        console.error(`\x1b[0m${doColors ? "\x1b[32m" : ""}✓ ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
+        console.error(`\x1b[0m${doColors ? "\x1b[32m" : ""}✓ ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
     }
 
 }

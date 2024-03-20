@@ -32,6 +32,7 @@ import type { MessageContextMenuCommandInteraction } from "discord.js";
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js");
 const createEmbed = require("../../modules/create-embed.js");
 const { setUser } = require("../../modules/user-cache.js");
+const print = require("../../modules/print.js");
 
 
 module.exports = {
@@ -68,7 +69,7 @@ module.exports = {
                 embeds: [createEmbed.affirm("Got it! This image will be used for your next message, unless you upload a different one.")]
             });
         } catch (error) {
-            console.error(error);
+            print.error(error);
             await interaction.editReply({
                 embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")]
             });

@@ -24,14 +24,13 @@ Mess around with images and GIFs on Discord! Dimwit is a Discord bot that introd
 
 * `node.js` (≥ 20.11.0)
 * `npm` (≥ 10.2.4)
+* `typescript` (≥ 5.4.2)
 
 ### Build and run
 
-* **Install dependencies:** `npm install`
-
-* **Build JS files:** `npm run build`
-
-* **Run:** `npm start`
+* Install dependencies: `npm i`
+* Build JS files: `npm run build`
+* Run: `npm start`
 
 ### Configuration
 
@@ -49,7 +48,7 @@ You may also want to add the following information, which is not required for th
 
 | Command | Details |
 | - | - |
-| `npm run build` | Compile all .ts files in `src/` to .js files in `dist/`. This will clear everything in the `dist/` folder first. |
+| `npm run build` | Compile all .ts files in `src/` to .js files in `dist/`. This will clear everything in the `dist/` folder first, and will also copy all non-JS contents of `src/` to `dist/`. |
 | `npm run deploy-commands` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for the testing guild (as defined in `config.json`) then all guilds. Should be ran only after testing has been completed in a private guild. |
 | `npm run deploy-commands-guild` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for the testing guild (as defined in `config.json`). |
 | `npm run deploy-commands-global` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for all guilds. Should be ran only after testing has been completed in a private guild. |

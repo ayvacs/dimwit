@@ -32,7 +32,7 @@ module.exports = {
 
     // print (white)
     log: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
-        console.log(`\x1b[0m  ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}${doColors ? "\x1b[0m" : ""}`);
+        console.log(`\x1b[0m  ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
     },
 
     // warn (yellow)

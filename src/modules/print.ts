@@ -26,28 +26,48 @@
 
 
 
-// I am so sorry to anyone who has to read this
+const colorette = require("colorette");
+
+
+function timestamp(): string {
+    return new Date().toLocaleString();
+}
+
+function colorStr(str: string, color: string): string {
+    return colorette[color](str) || str;
+}
+
+
 
 module.exports = {
 
     // print (white)
-    log: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
-        console.log(`\x1b[0m  ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
+    log: function(serviceName: string = "Global", text: string = "") {
+        console.log(`  ${timestamp()}  |  ${serviceName}  |  ${text}`);
     },
 
     // warn (yellow)
-    warn: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
-        console.warn(`\x1b[0m${doColors ? "\x1b[31m" : ""}? ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
+    warn: function(serviceName: string = "Global", text: string = "") {
+        console.log(colorStr(
+            `? ${timestamp()}  |  ${serviceName}  |  ${text}`,
+            "yellow"
+        ));
     },
 
     // error (red)
-    error: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
-        console.error(`\x1b[0m${doColors ? "\x1b[33m" : ""}! ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
+    error: function(serviceName: string = "Global", text: string = "") {
+        console.log(colorStr(
+            `! ${timestamp()}  |  ${serviceName}  |  ${text}`,
+            "red"
+        ));
     },
 
     // affirm (green)
-    affirm: function(serviceName: string = "Global", text: string = "", doColors: boolean = true) {
-        console.error(`\x1b[0m${doColors ? "\x1b[32m" : ""}✓ ${new Date().toLocaleString()}  |  ${serviceName}  |  ${text}`);
+    affirm: function(serviceName: string = "Global", text: string = "") {
+        console.log(colorStr(
+            `✓ ${timestamp()}  |  ${serviceName}  |  ${text}`,
+            "green"
+        ));
     }
 
 }

@@ -72,7 +72,7 @@ module.exports = {
 
         // Set the data
         cacheObject[userId][scope] = data;
-        print.log("User-Cache", `put [${String(data)}] at ${String(scope)} scope for user ${String(userId)}.${cacheObject[userId][scope] === data ? "" : " ERROR!"}`)
+        print.log("User-Cache", `put ${String(data)} at ${String(scope)} scope for user ${String(userId)}.${cacheObject[userId][scope] === data ? "" : " ERROR!"}`)
 
         return null;
     }

@@ -46,7 +46,7 @@ module.exports = function(canvas: typeof Canvas, enableTransparency: boolean = f
     encoder.finish();
 
     // Log the info
-    print.log("Canvas-to-GIFStream", `converted [canvas: ${String(canvas)}] [transparent? ${String(enableTransparency)}]`)
+    print.log("Canvas-to-GIFStream", `converted canvas: ${String(canvas)}${enableTransparency ? " transparent" : ""}`)
 
     return stream;
 }

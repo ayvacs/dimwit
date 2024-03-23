@@ -37,7 +37,7 @@ const cacheObject: {
         [scope: string]: any
     }
 } = {};
-print.log("User-Cache", "Instantiated cache object");
+print.detail("User-Cache", "Instantiated cache object");
 
 module.exports = {
 
@@ -67,12 +67,14 @@ module.exports = {
             return null;
 
         // Make sure an empty object exists for this user
-        if (!(userId in cacheObject))
+        if (!(userId in cacheObject)) {
+            print.detail("User-Cache", `Creating cache object for ${String(userId)}`);
             cacheObject[userId] = {};
+        }
 
         // Set the data
         cacheObject[userId][scope] = data;
-        print.log("User-Cache", `put ${String(data)} at ${String(scope)} scope for user ${String(userId)}.${cacheObject[userId][scope] === data ? "" : " ERROR!"}`)
+        print.log("User-Cache", `put ${String(data)} at ${String(scope)} scope for user ${String(userId)}`);
 
         return null;
     }

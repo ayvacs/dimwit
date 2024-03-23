@@ -69,7 +69,7 @@ module.exports = {
                 embeds: [createEmbed.affirm("Got it! This image will be used for your next message, unless you upload a different one.")]
             });
         } catch (error) {
-            print.error(error);
+            print.error("Select-Image", error);
             await interaction.editReply({
                 embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")]
             });

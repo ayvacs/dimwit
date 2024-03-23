@@ -48,7 +48,7 @@ module.exports = {
 
     // warn (yellow)
     warn: function(serviceName: string = "Global", text: string = "") {
-        console.log(colorStr(
+        console.warn(colorStr(
             `? ${timestamp()}  |  ${serviceName}  |  ${text}`,
             "yellow"
         ));
@@ -56,7 +56,7 @@ module.exports = {
 
     // error (red)
     error: function(serviceName: string = "Global", text: string = "") {
-        console.log(colorStr(
+        console.error(colorStr(
             `! ${timestamp()}  |  ${serviceName}  |  ${text}`,
             "red"
         ));
@@ -67,6 +67,14 @@ module.exports = {
         console.log(colorStr(
             `✓ ${timestamp()}  |  ${serviceName}  |  ${text}`,
             "green"
+        ));
+    },
+
+    // detail (gray)
+    detail: function(serviceName: string = "Global", text: string = "") {
+        console.log(colorStr(
+            `  ${timestamp()}  |  ${serviceName}  |  ${text}`,
+            "gray"
         ));
     }
 

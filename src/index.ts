@@ -77,7 +77,6 @@ client.on(Events.InteractionCreate, async interaction => {
     // Do not reply to interactions that are not slash commands or context menu commands
     if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
 
-    print.log(`Request @${interaction.user.id}`, `${interaction.isChatInputCommand() ? "/" : ""}${interaction.commandName}`);
     const command = interaction.client.commands.get(interaction.commandName);
 
     // This should probably never happen

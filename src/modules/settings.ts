@@ -2,7 +2,9 @@
 
     settings.ts
 
-    Module exporting a table of user configuration
+    Module exporting a table of user configuration. Allows the program to
+    override certain settings, i.e. those that are not required but need a
+    default variable to be set.
 
 
 
@@ -26,7 +28,7 @@
 
 
 const config = require("./../../config.json");
-const settings = config;
+const settings = structuredClone(config);
 
 // override certain settings
 settings.doAdvancedLogging = (config.doAdvancedLogging == undefined) ? true : config.doAdvancedLogging;

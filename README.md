@@ -35,21 +35,30 @@ Mess around with images and GIFs on Discord! Dimwit is a Discord bot that introd
 
 Create a `config.json` file in the root with the following information:
 
-* `token`: Your bot's token
-* `clientId`: Your app's application ID (string)
-* `guildId`: ID of a testing guild (string)
+#### Required
+
+| Name       | Details                            |
+| ---------- | ---------------------------------- |
+| `token`    | Your bot's token                   |
+| `clientId` | Your app's application ID (string) |
+| `guildId`  | ID of a testing guild (string)     |
+
+#### Only required for certain features
 
 You may also want to add the following information, which is not required for the bot to run but may be required for certain features:
 
-* `inviteLink`: A URL that people can use to add the bot to the server (it is recommended to use `277025770496` for permissions and `bot+applications.commands` for scope)
+| Name                | Default | Details                                                                                                                                                    |
+| ------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `doAdvancedLogging` | `false` | Suppress outputs that are usually unnecessary                                                                                                              |
+| `inviteLink`        |         | A URL that people can use to add the bot to the server (it is recommended to use `277025770496` for permissions and `bot+applications.commands` for scope) |
 
 ## Node scripts
 
-| Command | Details |
-| - | - |
-| `npm test` | Build and start. |
-| `npm run build` | Compile all .ts files in `src/` to .js files in `dist/`. This will clear everything in the `dist/` folder first, and will also copy all non-JS contents of `src/` to `dist/`. |
-| `npm run deploy-commands` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for the testing guild (as defined in `config.json`) then all guilds. Should be ran only after testing has been completed in a private guild. |
-| `npm run deploy-commands-guild` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for the testing guild (as defined in `config.json`). |
-| `npm run deploy-commands-global` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for all guilds. Should be ran only after testing has been completed in a private guild. |
-| `npm run flush-commands` | Reset global and guild commands. |
+| Command                          | Details                                                                                                                                                                                                                   |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm test`                       | Build and start.                                                                                                                                                                                                          |
+| `npm run build`                  | Compile all .ts files in `src/` to .js files in `dist/`. This will clear everything in the `dist/` folder first, and will also copy all non-JS contents of `src/` to `dist/`.                                             |
+| `npm run deploy-commands`        | **Requires that you compiled to .js with `npm run build`!** Refresh commands for the testing guild (as defined in `config.json`) then all guilds. Should be ran only after testing has been completed in a private guild. |
+| `npm run deploy-commands-guild`  | **Requires that you compiled to .js with `npm run build`!** Refresh commands for the testing guild (as defined in `config.json`).                                                                                         |
+| `npm run deploy-commands-global` | **Requires that you compiled to .js with `npm run build`!** Refresh commands for all guilds. Should be ran only after testing has been completed in a private guild.                                                      |
+| `npm run flush-commands`         | Reset global and guild commands.                                                                                                                                                                                          |

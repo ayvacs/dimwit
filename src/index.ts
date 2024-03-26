@@ -40,6 +40,15 @@ const createEmbed = require("./modules/create-embed.js");
 const print = require("./modules/print.js");
 
 
+// Ensure all required settings are given
+([ "token", "clientId", "guildId" ]).forEach(name => {
+    if (settings[name] == undefined) {
+        print.error("Settings", `Required setting entry ${name} was not given! Aborting.`);
+        process.exit(0); // 1 = error
+    }
+});
+
+
 // Create a new client
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 

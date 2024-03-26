@@ -27,10 +27,9 @@
 
 
 
-const config = require("./../../config.json");
-const settings = structuredClone(config);
+const settings = structuredClone(require("./../../config.json"));
 
 // override certain settings
-settings.doAdvancedLogging = (config.doAdvancedLogging == undefined) ? true : config.doAdvancedLogging;
+settings.doAdvancedLogging = (settings.doAdvancedLogging == undefined) ? true : settings.doAdvancedLogging;
 
 module.exports = settings;

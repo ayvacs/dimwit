@@ -34,7 +34,7 @@ const wait = require("node:timers/promises").setTimeout;
 
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
 
-const config = require("../config.json");
+const settings = require("./modules/settings.js");
 const statuses = require("./assets/statuses.json").messages;
 const createEmbed = require("./modules/create-embed.js");
 const print = require("./modules/print.js");
@@ -148,4 +148,4 @@ client.once(Events.ClientReady, async readyClient => {
 
 
 // Log in to Discord with the bot's token
-client.login(config.token);
+client.login(settings.token);

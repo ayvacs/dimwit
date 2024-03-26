@@ -27,6 +27,7 @@
 
 
 const colorette = require("colorette");
+const settings = require("./settings.js");
 
 
 function timestamp(): string {
@@ -72,10 +73,12 @@ module.exports = {
 
     // detail (gray)
     detail: function(serviceName: string = "Global", text: string = "") {
-        console.log(colorStr(
-            `  ${timestamp()}  |  ${serviceName}  |  ${text}`,
-            "gray"
-        ));
+        if (settings.doAdvancedLogging) {
+            console.log(colorStr(
+                `  ${timestamp()}  |  ${serviceName}  |  ${text}`,
+                "gray"
+            ));
+        }
     }
 
 }

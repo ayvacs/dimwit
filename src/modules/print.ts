@@ -71,7 +71,7 @@ module.exports = {
         ));
     },
 
-    // detail (gray)
+    // detail (gray) - for details that are not necessary for the end user to know. This can be disabled in config, so do not use it to log important information.
     detail: function(serviceName: string = "Global", text: string = "") {
         if (settings.doAdvancedLogging) {
             console.log(colorStr(

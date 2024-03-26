@@ -70,7 +70,7 @@ for (const folder of commandFolders) {
         // Set a new item in the client.commands Collection with the key as the command name and the value as the exported module
         if ("data" in command && "execute" in command) {
             client.commands.set(command.data.name, command);
-            print.log("Command-Collector", `Successfully collected command: ${command.data.name}`);
+            print.detail("Command-Collector", `Successfully collected command: ${command.data.name}`);
         } else {
             print.warn("Command-Collector", `The command at ${filePath} is mising a required "data" and/or "execute" property and has been skipped.`);
         }

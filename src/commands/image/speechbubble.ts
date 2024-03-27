@@ -35,58 +35,37 @@ const canvasToGIFstream = require("../../modules/canvas-to-gifstream.js");
 const createEmbed = require("../../modules/create-embed.js");
 const { getUser } = require("../../modules/user-cache.js");
 
+import { ImageCommand } from "../../templates/image-command.js";
+
+
+const cmd = new ImageCommand(
+    "speechbubble",
+    "Add a speech bubble on top of this image",
+    [
+        { type: "Boolean", name: "transparent", description: "Make the speech bubble transparent" }
+    ]
+)
+
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName("speechbubble")
-        .setDescription("Add a speech bubble on top of this image")
-        .addAttachmentOption(option => option
-            .setName("image")
-            .setDescription("The background image")
-            .setRequired(false)) // because save-image is a thing!
-        .addBooleanOption(option => option
-            .setName("transparent")
-            .setDescription("Make the speech bubble transparent"))
-        .addBooleanOption(option => option
-            .setName("gif")
-            .setDescription("Force the output image to be a GIF")),
+    data: cmd.toBuilder(),
     
     async execute(interaction: ChatInputCommandInteraction) {
-        // Let Discord know the interaction was received
-        await interaction.deferReply();
+        await cmd.register(interaction);
+        
+        // Parse options
+        const attachment = await cmd.getImage();
+
+
+
+        // Begin command-specific code
+
 
         // Configuration
         const bubbleHeight = (1/5) // the fraction of the image that the speechbubble should take up
-        const doTransparent = interaction.options.getBoolean("transparent") 
-        const doGif = interaction.options.getBoolean("gif")
+        const doTransparent = interaction.options.getBoolean("transparent");
 
-        // Get attachment
-        let attachment;
-        if (interaction.options.getAttachment("image")) {
-            // If an attachment was provided by the user in the commandbox
-            attachment = interaction.options.getAttachment("image");
-        } else {
-            // Otherwise, check if the user has used select-image
-            let result = getUser(interaction.user.id, "savedImage", true);
-            if (result === null) {
-                // No image was provided at all
-                await interaction.editReply({
-                    embeds: [createEmbed.error("You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.")]
-                });
-                return;
-            }
-
-            // An image is present in the usercache
-            attachment = result;
-        }
-        // Make sure the attachment is an image
-        if (attachment.width === null || attachment.height === null) {
-            await interaction.editReply({
-                embeds: [createEmbed.error("The attachment you uploaded is not an image.")]
-            });
-            return;
-        }
-
+       
         // Create a blank Canvas
         const canvas = Canvas.createCanvas(attachment.width, attachment.height);
         const context = canvas.getContext("2d");
@@ -109,14 +88,16 @@ module.exports = {
 
             // Tell Canvas to stop deleting pixels
             context.globalCompositeOperation = "source-over";
-        }
+        };
 
-        // Create a new attachment to reply with
-        await interaction.editReply({files: [
-            new AttachmentBuilder(
-                doGif ? canvasToGIFstream(canvas, doTransparent) : await canvas.encode("png"),
-                { name: doGif ? "processed.gif" : "processed.png" }
-            )
-        ]})
+
+
+        // End command-specific code
+        
+
+        // Post-process command
+        cmd.postProcess({
+            doEditReply: true
+        }, canvas);
     }
 }

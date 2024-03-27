@@ -37,7 +37,7 @@ const cacheObject: {
         [scope: string]: any
     }
 } = {};
-print.detail("User-Cache", "Instantiated cache object");
+print.detail("User-Cache", "Created global cache object");
 
 module.exports = {
 
@@ -52,7 +52,7 @@ module.exports = {
 
         // Get the data
         const result = cacheObject[userId][scope];
-        print.log("User-Cache", `got ${String(result)} at ${String(scope)} scope for user ${String(userId)}.`)
+        print.log("User-Cache", `Got ${String(result)} at "${String(scope)}" scope for user ${String(userId)}`)
 
         // If necessary, clear scope after use
         if (clearAfter)
@@ -74,7 +74,7 @@ module.exports = {
 
         // Set the data
         cacheObject[userId][scope] = data;
-        print.log("User-Cache", `put ${String(data)} at ${String(scope)} scope for user ${String(userId)}`);
+        print.log("User-Cache", `Put ${String(data)} at "${String(scope)}" scope for user ${String(userId)}`);
 
         return null;
     }

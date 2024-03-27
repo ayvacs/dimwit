@@ -55,6 +55,8 @@ module.exports = {
         
         // Parse options
         const attachment = await cmd.getImage();
+        if (attachment == null)
+            return;
 
 
 
@@ -96,8 +98,6 @@ module.exports = {
         
 
         // Post-process command
-        cmd.postProcess({
-            doEditReply: true
-        }, canvas);
+        cmd.postProcess({}, canvas);
     }
 }

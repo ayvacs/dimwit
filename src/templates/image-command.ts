@@ -42,7 +42,7 @@ export type CommandOption = {
 };
 
 export type ImageCommandPostProcessOptions = {
-    doEditReply: boolean
+    doEditReply?: boolean
 };
 
 
@@ -126,11 +126,12 @@ export class ImageCommand {
         const doGif = this.interaction.options.getBoolean("gif");
 
         // Create a new attachment to reply with
-        await this.interaction.editReply({files: [
-            new AttachmentBuilder(
-                doGif ? canvasToGIFstream(canvas, false) : await canvas.encode("png"),
-                { name: doGif ? "processed.gif" : "processed.png" }
-            )
-        ]});
+        const attachment = new AttachmentBuilder(
+            doGif ? canvasToGIFstream(canvas, false) : await canvas.encode("png"),
+            { name: doGif ? "processed.gif" : "processed.png" }
+        );
+
+        if (options.doEditReply == true || options.doEditReply == undefined)
+            await this.interaction.editReply({files: [ attachment ]});
     };
 };

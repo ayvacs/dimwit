@@ -118,6 +118,8 @@ client.on(Events.InteractionCreate, async interaction => {
 // CLIENT READY HANDLER
 //*********************
 
+print.detail("Client", "Logging in...");
+
 // This function runs when the client is ready, only once
 client.once(Events.ClientReady, async readyClient => {
 

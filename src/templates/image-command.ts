@@ -26,12 +26,13 @@
 
 
 import type { ChatInputCommandInteraction } from "discord.js";
-const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
+const { SlashCommandBuilder, AttachmentBuilder, ApplicationCommandOptionBase } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
 
 const canvasToGIFstream = require("../modules/canvas-to-gifstream.js");
 const createEmbed = require("../modules/create-embed.js");
 const { getUser } = require("../modules/user-cache.js");
+const print = require("./../modules/print.js");
 
 
 export type CommandOption = {
@@ -50,30 +51,37 @@ export class ImageCommand {
     builder: typeof SlashCommandBuilder;
     interaction: ChatInputCommandInteraction;
 
-    constructor(name: string, description: string, options?: CommandOption[]) {
+    constructor(name: string, description: string, options: CommandOption[] = []) {
         this.builder = new SlashCommandBuilder();
-        this.builder.setName(name);
-        this.builder.setDescription(description);
+        const builder = this.builder;
+
+        builder.setName(name);
+        builder.setDescription(description);
 
         // add default options
-        this.builder.addAttachmentOption(option => option
+        builder.addAttachmentOption(option => option
             .setName("image")
             .setDescription("The background image")
             .setRequired(false)); // because save-image is a thing!
 
         // add custom options
-        if (options) {
-            options.forEach((option) => {
-                this.builder[`add${option.type}Option`](
-                    (o) => o.setName(option.name)
-                        .setDescription(option.name)
-                        .setRequired((typeof option.isRequired == "boolean") ? option.isRequired : false)
-                );
-            });
-        };
+        options.forEach((option) => {
+            // verify the datatype of option actually exists
+            const funcName = `add${option.type}Option`;
+            if (typeof builder[funcName] !== "function") {
+                print.error("Image-Command", `Datatype option command "${funcName}" does not exist for command ${builder.name}`);
+                return;
+            }
+
+            builder[funcName](
+                (o: typeof ApplicationCommandOptionBase) => o.setName(option.name)
+                    .setDescription(option.description)
+                    .setRequired((typeof option.isRequired == "boolean") ? option.isRequired : false)
+            );
+        });
 
         // add default options
-        this.builder.addBooleanOption(option => option
+        builder.addBooleanOption(option => option
             .setName("gif")
             .setDescription("Force the output image to be a GIF")
             .setRequired(false));

@@ -28,8 +28,11 @@
 
 
 
+// Node imports
 import type { ChatInputCommandInteraction } from "discord.js";
 const { SlashCommandBuilder } = require("discord.js");
+
+// Utils
 const createEmbed = require("../../modules/create-embed.js");
 
 

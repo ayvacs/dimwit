@@ -27,6 +27,7 @@
 
 
 
+// Node imports
 const { EmbedBuilder } = require("discord.js");
 
 

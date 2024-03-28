@@ -26,17 +26,16 @@
 
 
 
-// Requires
-
-const fs = require("node:fs");
-const path = require("node:path");
-const wait = require("node:timers/promises").setTimeout;
-
+// Node imports
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
+const wait = require("node:timers/promises").setTimeout;
+const path = require("node:path");
+const fs = require("node:fs");
 
-const settings = require("./modules/settings.js");
+// Utils
 const statuses = require("./assets/statuses.json").messages;
 const createEmbed = require("./modules/create-embed.js");
+const settings = require("./modules/settings.js");
 const print = require("./modules/print.js");
 
 

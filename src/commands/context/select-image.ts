@@ -28,8 +28,11 @@
 
 
 
+// Node imports
 import type { MessageContextMenuCommandInteraction } from "discord.js";
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js");
+
+// Utils
 const createEmbed = require("../../modules/create-embed.js");
 const { setUser } = require("../../modules/user-cache.js");
 const print = require("../../modules/print.js");

@@ -26,8 +26,11 @@
 
 
 
+// Node imports
 const Canvas = require("@napi-rs/canvas");
 const GIFEncoder = require("gifencoder");
+
+// Utils
 const print = require("./print.js");
 
 

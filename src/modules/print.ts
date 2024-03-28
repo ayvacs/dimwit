@@ -26,14 +26,19 @@
 
 
 
+// Node imports
 const colorette = require("colorette");
+
+// Utils
 const settings = require("./settings.js");
 
 
+// Get the current time as a formatted string
 function timestamp(): string {
     return new Date().toLocaleString();
 }
 
+// Format the string to a chosen color
 function colorStr(str: string, color: string): string {
     return colorette[color](str) || str;
 }

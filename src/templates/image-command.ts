@@ -25,10 +25,12 @@
 
 
 
+// Node imports
 import type { ChatInputCommandInteraction } from "discord.js";
 const { SlashCommandBuilder, AttachmentBuilder, ApplicationCommandOptionBase } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
 
+// Utils
 const canvasToGIFstream = require("../modules/canvas-to-gifstream.js");
 const createEmbed = require("../modules/create-embed.js");
 const { getUser } = require("../modules/user-cache.js");

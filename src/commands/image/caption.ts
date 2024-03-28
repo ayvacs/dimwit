@@ -27,10 +27,12 @@
 
 
 
+// Node imports
 import type { ChatInputCommandInteraction } from "discord.js";
 import { ImageCommand } from "../../templates/image-command.js";
 const Canvas = require("@napi-rs/canvas");
 
+// Utils
 const createEmbed = require("../../modules/create-embed.js");
 
 

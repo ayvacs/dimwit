@@ -27,14 +27,11 @@
 
 
 
+// Node imports
 import type { ChatInputCommandInteraction } from "discord.js";
-const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
 
-const canvasToGIFstream = require("../../modules/canvas-to-gifstream.js");
-const createEmbed = require("../../modules/create-embed.js");
-const { getUser } = require("../../modules/user-cache.js");
-
+// Utils
 import { ImageCommand } from "../../templates/image-command.js";
 
 
@@ -71,6 +68,9 @@ module.exports = {
         // Create a blank Canvas
         const canvas = Canvas.createCanvas(attachment.width, attachment.height);
         const context = canvas.getContext("2d");
+
+        // Tell Canvas to draw instead of delete
+        context.globalCompositeOperation = "source-over";
 
         // Stretch the given image onto the entire canvas
         const background = await Canvas.loadImage(attachment.url);

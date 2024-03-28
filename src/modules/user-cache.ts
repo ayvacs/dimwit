@@ -30,14 +30,18 @@
 
 
 
+// Utils
 const print = require("./print.js");
+
 
 const cacheObject: {
     [userId: number]: {
         [scope: string]: any
     }
 } = {};
+
 print.detail("User-Cache", "Created global cache object");
+
 
 module.exports = {
 

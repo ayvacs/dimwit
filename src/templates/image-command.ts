@@ -26,7 +26,7 @@
 
 
 // Node imports
-import type { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction, CommandInteractionOption } from "discord.js";
 const { SlashCommandBuilder, AttachmentBuilder, ApplicationCommandOptionBase } = require("discord.js");
 const Canvas = require("@napi-rs/canvas");
 
@@ -47,6 +47,7 @@ export type CommandOption = {
     isRequired?: boolean
 };
 
+
 /**
  * Defines settings for the postProcess function.
  */
@@ -54,12 +55,14 @@ export type ImageCommandPostProcessOptions = {
     doEditReply?: boolean
 };
 
+
 /**
  * Defines an image command.
  */
 export class ImageCommand {
     builder: typeof SlashCommandBuilder;
     interaction: ChatInputCommandInteraction;
+
 
     /**
      * Create a new image command with this name, description, and options.
@@ -98,11 +101,16 @@ export class ImageCommand {
             .setName("gif")
             .setDescription("Force the output image to be a GIF")
             .setRequired(false));
+        builder.addBooleanOption(option => option
+            .setName("spoiler")
+            .setDescription("Send the new image as a spoiler")
+            .setRequired(false));
     };
 
     toBuilder() {
         return this.builder;
     };
+
 
     /**
      * Register the interaction.
@@ -114,11 +122,12 @@ export class ImageCommand {
         await this.interaction.deferReply();
     };
 
+
     /**
      * Get the image uploaded by the user.
      */
     async getImage() {
-        let attachment;
+        let attachment: NonNullable<CommandInteractionOption['attachment']>;
 
         if (this.interaction.options.getAttachment("image")) {
             // If an attachment was provided by the user in the commandbox
@@ -149,12 +158,16 @@ export class ImageCommand {
         return attachment;
     };
 
+
     /**
      * Perform post-process functions such as converting to gif if needed and editing the reply with the new image.
      */
-    async postProcess(options: ImageCommandPostProcessOptions, canvas: typeof Canvas) {
-        const doEditReply = options.doEditReply == true || options.doEditReply == undefined;
+    async postProcess(ppOptions: ImageCommandPostProcessOptions, canvas: typeof Canvas) {
+        const doEditReply = ppOptions.doEditReply == true || ppOptions.doEditReply == undefined;
+
+        const doSpoiler = this.interaction.options.getBoolean("doSpoiler") || false;
         const doGif = this.interaction.options.getBoolean("gif") || false;
+
 
         // Create a new attachment to reply with
         const attachment = new AttachmentBuilder(
@@ -166,7 +179,7 @@ export class ImageCommand {
                     ? "processed.gif"
                     : "processed.png"
             }
-        );
+        ).setSpoiler(doSpoiler);
 
         if (doEditReply)
             await this.interaction.editReply({files: [ attachment ]});

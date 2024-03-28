@@ -2,7 +2,7 @@
 
     image-command.ts
 
-    Module exporting a type used to construct image-related commands
+    Module exporting types used to construct image-related commands
 
 
 
@@ -35,6 +35,9 @@ const { getUser } = require("../modules/user-cache.js");
 const print = require("./../modules/print.js");
 
 
+/**
+ * Defines a single option to be included with the command, and its functionality must be written in the command's source file.
+ */
 export type CommandOption = {
     type: string,
     name: string,
@@ -42,15 +45,23 @@ export type CommandOption = {
     isRequired?: boolean
 };
 
+/**
+ * Defines settings for the postProcess function.
+ */
 export type ImageCommandPostProcessOptions = {
     doEditReply?: boolean
 };
 
-
+/**
+ * Defines an image command.
+ */
 export class ImageCommand {
     builder: typeof SlashCommandBuilder;
     interaction: ChatInputCommandInteraction;
 
+    /**
+     * Create a new image command with this name, description, and options.
+     */
     constructor(name: string, description: string, options: CommandOption[] = []) {
         this.builder = new SlashCommandBuilder();
         const builder = this.builder;
@@ -91,6 +102,9 @@ export class ImageCommand {
         return this.builder;
     };
 
+    /**
+     * Register the interaction.
+     */
     async register(interaction: ChatInputCommandInteraction) {
         this.interaction = interaction;
 
@@ -98,6 +112,9 @@ export class ImageCommand {
         await this.interaction.deferReply();
     };
 
+    /**
+     * Get the image uploaded by the user.
+     */
     async getImage() {
         let attachment;
 
@@ -130,16 +147,26 @@ export class ImageCommand {
         return attachment;
     };
 
+    /**
+     * Perform post-process functions such as converting to gif if needed and editing the reply with the new image.
+     */
     async postProcess(options: ImageCommandPostProcessOptions, canvas: typeof Canvas) {
-        const doGif = this.interaction.options.getBoolean("gif");
+        const doEditReply = options.doEditReply == true || options.doEditReply == undefined;
+        const doGif = this.interaction.options.getBoolean("gif") || false;
 
         // Create a new attachment to reply with
         const attachment = new AttachmentBuilder(
-            doGif ? canvasToGIFstream(canvas, false) : await canvas.encode("png"),
-            { name: doGif ? "processed.gif" : "processed.png" }
+            doGif
+                ? canvasToGIFstream(canvas, false)
+                : await canvas.encode("png"),
+            {
+                name: doGif
+                    ? "processed.gif"
+                    : "processed.png"
+            }
         );
 
-        if (options.doEditReply == true || options.doEditReply == undefined)
+        if (doEditReply)
             await this.interaction.editReply({files: [ attachment ]});
     };
 };

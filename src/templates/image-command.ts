@@ -165,22 +165,25 @@ export class ImageCommand {
     async postProcess(ppOptions: ImageCommandPostProcessOptions, canvas: typeof Canvas) {
         const doEditReply = ppOptions.doEditReply == true || ppOptions.doEditReply == undefined;
 
-        const doSpoiler = this.interaction.options.getBoolean("doSpoiler") || false;
+        const doSpoiler = this.interaction.options.getBoolean("spoiler") || false;
         const doGif = this.interaction.options.getBoolean("gif") || false;
 
 
         // Create a new attachment to reply with
+
+        const fileName = doGif
+            ? "processed.gif"
+            : "processed.png";
+
+        const fileStream = doGif
+            ? canvasToGIFstream(canvas, false)
+            : await canvas.encode("png");
+
         const attachment = new AttachmentBuilder(
-            doGif
-                ? canvasToGIFstream(canvas, false)
-                : await canvas.encode("png"),
-            {
-                name: doGif
-                    ? "processed.gif"
-                    : "processed.png"
-            }
+            fileStream, { name: fileName }
         ).setSpoiler(doSpoiler);
 
+        
         if (doEditReply)
             await this.interaction.editReply({files: [ attachment ]});
     };

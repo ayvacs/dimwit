@@ -4,6 +4,7 @@ node_modules/
 
 # Contains sensitive information
 config.json
+recent-user-cache.json
 
 
 # Weird OS-generated files

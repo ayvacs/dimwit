@@ -18,6 +18,11 @@
 
 Mess around with images and GIFs on Discord! Dimwit is a Discord bot that introduces numerous funny image-related commands. Written in TypeScript.
 
+* Multiple image-related commands, and a small set of useful utility commands
+  * All features fully work with all widely-used image formats, including GIFs
+* A cache that allows users to select an already-uploaded image to use in their command without re-uploading it
+  * The cache automatically saves, persisting between sessions
+
 ## Hosting
 
 ### Requirements

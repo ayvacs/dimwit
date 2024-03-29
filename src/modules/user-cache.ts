@@ -30,19 +30,63 @@
 
 
 
+// Node imports
+const fs = require('fs');
+
 // Utils
 const print = require("./print.js");
 
 
-const cacheObject: {
+let cacheObject: {
     [userId: number]: {
         [scope: string]: any
     }
-} = {};
+};
+
+
+// save when console closed and load when reopened
+
+const saveFilePath = "./recent-user-cache.json"; // why does this go to the root? I have no fucking clue.
+
+// only do this if the file does not exist!
+if (!fs.existsSync(saveFilePath)) {
+    print.detail("User-Cache", `Cache log ${saveFilePath} does not exist. Creating an empty cache.`);
+    cacheObject = {};
+} else {
+    try {
+        const saveFileData = fs.readFileSync(saveFilePath);
+        cacheObject = JSON.parse(saveFileData);
+    
+        print.affirm("User-Cache", `Loaded the previous cache from file: ${saveFilePath}.`)
+    } catch (err) {
+        print.error("User-Cache", `An error occured while reading file: ${String(err)}.`)
+        cacheObject = {};
+    }
+}
+
+
+process.on("SIGINT", () => {
+    print.warn("User-Cache", `Saving cache to file ${saveFilePath}`);
+
+    let wasError = false;
+    try {
+        fs.writeFileSync(saveFilePath, JSON.stringify(cacheObject) || "{}");
+    } catch (err) {
+        wasError = true;
+        print.error("User-Cache", `An error occured while saving to file: "${String(err)}". Exiting program without saving.`);
+    }
+
+    if (!wasError)
+        print.affirm("User-Cache", "Saving complete.");
+
+    process.exit(0);
+});
 
 print.detail("User-Cache", "Created global cache object");
 
 
+
+// getters/setters
 module.exports = {
 
     getUser: function(userId: number, scope: string, clearAfter: boolean): any {

@@ -48,10 +48,10 @@ module.exports = {
     data: cmd.toBuilder(),
     
     async execute(interaction: ChatInputCommandInteraction) {
-        await cmd.register(interaction);
+        const thisContext = await cmd.register(interaction);
         
         // Parse options
-        const attachment = await cmd.getImage();
+        const attachment = await thisContext.getImage();
         if (attachment == null)
             return;
 
@@ -98,6 +98,6 @@ module.exports = {
         
 
         // Post-process command
-        cmd.postProcess({}, canvas);
+        thisContext.postProcess({}, canvas);
     }
 }

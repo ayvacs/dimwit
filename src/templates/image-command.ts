@@ -61,7 +61,6 @@ export type ImageCommandPostProcessOptions = {
  */
 export class ImageCommand {
     builder: typeof SlashCommandBuilder;
-    interaction: ChatInputCommandInteraction;
 
 
     /**
@@ -113,78 +112,84 @@ export class ImageCommand {
 
 
     /**
-     * Register the interaction.
+     * Register the interaction and return its context.
      */
     async register(interaction: ChatInputCommandInteraction) {
-        this.interaction = interaction;
+        const thisContext: any = {};
+        thisContext.interaction = interaction;
+
 
         // Let Discord know the interaction was received
-        await this.interaction.deferReply();
-    };
+        await interaction.deferReply();
 
+        
+        // return this current context
 
-    /**
-     * Get the image uploaded by the user.
-     */
-    async getImage() {
-        let attachment: NonNullable<CommandInteractionOption['attachment']>;
-
-        if (this.interaction.options.getAttachment("image")) {
-            // If an attachment was provided by the user in the commandbox
-            attachment = this.interaction.options.getAttachment("image");
-        } else {
-            // Otherwise, check if the user has used select-image
-            let result = getUser(this.interaction.user.id, "savedImage", true);
-            if (result === null) {
-                // No image was provided at all
-                await this.interaction.editReply({
-                    embeds: [createEmbed.error("You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.")]
+        /**
+         * Get the image uploaded by the user.
+         */
+        thisContext.getImage = async function() {
+            let attachment: NonNullable<CommandInteractionOption['attachment']>;
+    
+            if (interaction.options.getAttachment("image")) {
+                // If an attachment was provided by the user in the commandbox
+                attachment = interaction.options.getAttachment("image");
+            } else {
+                // Otherwise, check if the user has used select-image
+                let result = getUser(interaction.user.id, "savedImage", true);
+                if (result === null) {
+                    // No image was provided at all
+                    await interaction.editReply({
+                        embeds: [createEmbed.error("You haven't given me an image! You can also right click on an image you previously sent and click the \"Select Image for Next Command\" button, then resend the command without uploading an image.")]
+                    });
+                    return null;
+                }
+    
+                // An image is present in the usercache
+                attachment = result;
+            }
+    
+            // Make sure the attachment is an image
+            if (attachment.width === null || attachment.height === null) {
+                await interaction.editReply({
+                    embeds: [createEmbed.error("The attachment you uploaded is not an image.")]
                 });
                 return null;
             }
+    
+            return attachment;
+        };
 
-            // An image is present in the usercache
-            attachment = result;
-        }
+        /**
+         * Perform post-process functions such as converting to gif if needed and editing the reply with the new image.
+         */
+        thisContext.postProcess = async function(ppOptions: ImageCommandPostProcessOptions, canvas: typeof Canvas) {
+            const doEditReply = ppOptions.doEditReply == true || ppOptions.doEditReply == undefined;
 
-        // Make sure the attachment is an image
-        if (attachment.width === null || attachment.height === null) {
-            await this.interaction.editReply({
-                embeds: [createEmbed.error("The attachment you uploaded is not an image.")]
-            });
-            return null;
-        }
-
-        return attachment;
-    };
+            const doSpoiler = interaction.options.getBoolean("spoiler") || false;
+            const doGif = interaction.options.getBoolean("gif") || false;
 
 
-    /**
-     * Perform post-process functions such as converting to gif if needed and editing the reply with the new image.
-     */
-    async postProcess(ppOptions: ImageCommandPostProcessOptions, canvas: typeof Canvas) {
-        const doEditReply = ppOptions.doEditReply == true || ppOptions.doEditReply == undefined;
+            // Create a new attachment to reply with
 
-        const doSpoiler = this.interaction.options.getBoolean("spoiler") || false;
-        const doGif = this.interaction.options.getBoolean("gif") || false;
+            const fileName = doGif
+                ? "processed.gif"
+                : "processed.png";
+
+            const fileStream = doGif
+                ? canvasToGIFstream(canvas, false)
+                : await canvas.encode("png");
+
+            const attachment = new AttachmentBuilder(
+                fileStream, { name: fileName }
+            ).setSpoiler(doSpoiler);
+
+            
+            if (doEditReply)
+                await interaction.editReply({files: [ attachment ]});
+        };
 
 
-        // Create a new attachment to reply with
-
-        const fileName = doGif
-            ? "processed.gif"
-            : "processed.png";
-
-        const fileStream = doGif
-            ? canvasToGIFstream(canvas, false)
-            : await canvas.encode("png");
-
-        const attachment = new AttachmentBuilder(
-            fileStream, { name: fileName }
-        ).setSpoiler(doSpoiler);
-
-        
-        if (doEditReply)
-            await this.interaction.editReply({files: [ attachment ]});
+        return thisContext;
     };
 };

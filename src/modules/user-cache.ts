@@ -37,40 +37,35 @@ const fs = require('fs');
 const print = require("./print.js");
 
 
-let cacheObject: {
-    [userId: number]: {
-        [scope: string]: any
-    }
-};
-
-
-// save when console closed and load when reopened
-
 const saveFilePath = "./recent-user-cache.json"; // why does this go to the root? I have no fucking clue.
 
-// only do this if the file does not exist!
-if (!fs.existsSync(saveFilePath)) {
-    print.detail("User-Cache", `Cache log ${saveFilePath} does not exist. Creating an empty cache.`);
-    cacheObject = {};
-} else {
+
+// Functions
+
+// Load and return a cache from file if it exists, or create and return an empty cache
+function buildCache(): any {
+    if (!fs.existsSync(saveFilePath)) {
+        print.detail("User-Cache", `Cache log ${saveFilePath} does not exist. Creating an empty cache.`);
+        return {};
+    };
+
     try {
-        const saveFileData = fs.readFileSync(saveFilePath);
-        cacheObject = JSON.parse(saveFileData);
-    
+        const obj = JSON.parse(fs.readFileSync(saveFilePath));
         print.affirm("User-Cache", `Loaded the previous cache from file: ${saveFilePath}.`)
+        return obj;
     } catch (err) {
-        print.error("User-Cache", `An error occured while reading file: ${String(err)}.`)
-        cacheObject = {};
+        print.error("User-Cache", `An error occured while reading file: ${String(err)}. Creating an empty cache.`)
+        return {};
     }
 }
 
-
-process.on("SIGINT", () => {
+// Save the cache to disk, returns if success
+function saveCache(cacheObject: any): boolean {
     print.warn("User-Cache", `Saving cache to file ${saveFilePath}`);
 
     let wasError = false;
     try {
-        fs.writeFileSync(saveFilePath, JSON.stringify(cacheObject) || "{}");
+        fs.writeFileSync(saveFilePath, JSON.stringify(cacheObject, null, 4) || "{}");
     } catch (err) {
         wasError = true;
         print.error("User-Cache", `An error occured while saving to file: "${String(err)}". Exiting program without saving.`);
@@ -79,14 +74,27 @@ process.on("SIGINT", () => {
     if (!wasError)
         print.affirm("User-Cache", "Saving complete.");
 
-    process.exit(0);
-});
+    return wasError;
+}
 
+
+// Build cache
+let cacheObject: {
+    [userId: number]: {
+        [scope: string]: any
+    }
+} = buildCache();
 print.detail("User-Cache", "Created global cache object");
 
 
+// Save to disk when process ends
+process.on("SIGINT", () => {
+    saveCache(cacheObject);
+    process.exit(0);
+});
 
-// getters/setters
+
+// Return accessor and mutator functions
 module.exports = {
 
     getUser: function(userId: number, scope: string, clearAfter: boolean): any {

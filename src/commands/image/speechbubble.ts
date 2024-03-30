@@ -48,6 +48,7 @@ module.exports = {
     data: cmd.toBuilder(),
     
     async execute(interaction: ChatInputCommandInteraction) {
+        // Get the current context
         const thisContext = await cmd.register(interaction);
         
         // Parse options

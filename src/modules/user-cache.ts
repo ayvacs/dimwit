@@ -39,11 +39,18 @@ const print = require("./print.js");
 
 const saveFilePath = "./recent-user-cache.json"; // why does this go to the root? I have no fucking clue.
 
+type UserCache = {
+    [userId: number]: {
+        [scope: string]: any
+    }
+}
+
+
 
 // Functions
 
 // Load and return a cache from file if it exists, or create and return an empty cache
-function buildCache(): any {
+function buildCache(): UserCache {
     if (!fs.existsSync(saveFilePath)) {
         print.detail("User-Cache", `Cache log ${saveFilePath} does not exist. Creating an empty cache.`);
         return {};
@@ -51,7 +58,7 @@ function buildCache(): any {
 
     try {
         const obj = JSON.parse(fs.readFileSync(saveFilePath));
-        print.affirm("User-Cache", `Loaded the previous cache from file: ${saveFilePath}.`)
+        print.detail("User-Cache", `Loaded the previous cache from file: ${saveFilePath}.`)
         return obj;
     } catch (err) {
         print.error("User-Cache", `An error occured while reading file: ${String(err)}. Creating an empty cache.`)
@@ -60,7 +67,7 @@ function buildCache(): any {
 }
 
 // Save the cache to disk, returns if success
-function saveCache(cacheObject: any): boolean {
+function saveCache(cacheObject: UserCache): boolean {
     print.warn("User-Cache", `Saving cache to file ${saveFilePath}`);
 
     let wasError = false;
@@ -78,13 +85,10 @@ function saveCache(cacheObject: any): boolean {
 }
 
 
+
+
 // Build cache
-let cacheObject: {
-    [userId: number]: {
-        [scope: string]: any
-    }
-} = buildCache();
-print.detail("User-Cache", "Created global cache object");
+const cacheObject: UserCache = buildCache();
 
 
 // Save to disk when process ends
@@ -95,43 +99,41 @@ process.on("SIGINT", () => {
 
 
 // Return accessor and mutator functions
-module.exports = {
 
-    getUser: function(userId: number, scope: string, clearAfter: boolean): any {
-        // Verify input
-        if (userId.toString() === null)
-            return null;
-
-        // Make sure the data exists
-        if (!(userId in cacheObject) || !(scope in cacheObject[userId]))
-            return null;
-
-        // Get the data
-        const result = cacheObject[userId][scope];
-        print.log("User-Cache", `Got ${String(result)} at "${String(scope)}" scope for user ${String(userId)}`)
-
-        // If necessary, clear scope after use
-        if (clearAfter)
-            cacheObject[userId][scope] = null;
-        
-        return result;
-    },
-
-    setUser: function (userId: number, scope: string, data: any): null {
-        // Verify input
-        if (userId.toString() === null)
-            return null;
-
-        // Make sure an empty object exists for this user
-        if (!(userId in cacheObject)) {
-            print.detail("User-Cache", `Creating cache object for ${String(userId)}`);
-            cacheObject[userId] = {};
-        }
-
-        // Set the data
-        cacheObject[userId][scope] = data;
-        print.log("User-Cache", `Put ${String(data)} at "${String(scope)}" scope for user ${String(userId)}`);
-
+export function getUser (userId: number, scope: string, clearAfter: boolean): any {
+    // Verify input
+    if (userId.toString() === null)
         return null;
+
+    // Make sure the data exists
+    if (!(userId in cacheObject) || !(scope in cacheObject[userId]))
+        return null;
+
+    // Get the data
+    const result = cacheObject[userId][scope];
+    print.log("User-Cache", `Got ${String(result)} at "${String(scope)}" scope for user ${String(userId)}`)
+
+    // If necessary, clear scope after use
+    if (clearAfter)
+        cacheObject[userId][scope] = null;
+    
+    return result;
+};
+
+export function setUser (userId: number, scope: string, data: any): null {
+    // Verify input
+    if (userId.toString() === null)
+        return null;
+
+    // Make sure an empty object exists for this user
+    if (!(userId in cacheObject)) {
+        print.detail("User-Cache", `Creating cache object for ${String(userId)}`);
+        cacheObject[userId] = {};
     }
+
+    // Set the data
+    cacheObject[userId][scope] = data;
+    print.log("User-Cache", `Put ${String(data)} at "${String(scope)}" scope for user ${String(userId)}`);
+
+    return null;
 };

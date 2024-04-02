@@ -46,7 +46,7 @@ const cmd = new ImageCommand(
 
 
 module.exports = {
-    data: cmd.toBuilder(),
+    data: cmd.getData(),
     
     async execute(interaction: ChatInputCommandInteraction) {
         // Get the current context

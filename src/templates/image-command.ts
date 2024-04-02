@@ -66,7 +66,7 @@ export class ImageCommand {
     /**
      * Create a new image command with this name, description, and options.
      */
-    constructor(name: string, description: string, options: CommandOption[] = []) {
+    constructor(name: string, description: string, options?: CommandOption[]) {
         this.builder = new SlashCommandBuilder();
         const builder = this.builder;
 
@@ -80,20 +80,23 @@ export class ImageCommand {
             .setRequired(false)); // because save-image is a thing!
 
         // add custom options
-        options.forEach((option) => {
-            // verify the datatype of option actually exists
-            const funcName = `add${option.type}Option`;
-            if (typeof builder[funcName] !== "function") {
-                print.error("Image-Command", `Datatype option command "${funcName}" does not exist for command ${builder.name}`);
-                return;
-            }
+        if (options !== undefined) {
+            options.forEach((option) => {
+                // verify the datatype of option actually exists
+                const funcName = `add${option.type}Option`;
+                if (typeof builder[funcName] !== "function") {
+                    print.error("Image-Command", `Datatype option command "${funcName}" does not exist for command ${builder.name}`);
+                    return;
+                }
 
-            builder[funcName](
-                (o: typeof ApplicationCommandOptionBase) => o.setName(option.name)
-                    .setDescription(option.description)
-                    .setRequired((typeof option.isRequired == "boolean") ? option.isRequired : false)
-            );
-        });
+                builder[funcName](
+                    (o: typeof ApplicationCommandOptionBase) => o
+                        .setName(option.name)
+                        .setDescription(option.description)
+                        .setRequired((typeof option.isRequired == "boolean") ? option.isRequired : false)
+                );
+            });
+        };
 
         // add default options
         builder.addBooleanOption(option => option
@@ -106,7 +109,10 @@ export class ImageCommand {
             .setRequired(false));
     };
 
-    toBuilder() {
+    /**
+     * Return this command's data as a CommandBuilder instance.
+     */
+    getData() {
         return this.builder;
     };
 
@@ -163,7 +169,7 @@ export class ImageCommand {
         /**
          * Perform post-process functions such as converting to gif if needed and editing the reply with the new image.
          */
-        thisContext.postProcess = async function(ppOptions: ImageCommandPostProcessOptions, canvas: typeof Canvas) {
+        thisContext.postProcess = async function(ppOptions: ImageCommandPostProcessOptions = {}, canvas: typeof Canvas) {
             const doEditReply = ppOptions.doEditReply == true || ppOptions.doEditReply == undefined;
 
             const doSpoiler = interaction.options.getBoolean("spoiler") || false;

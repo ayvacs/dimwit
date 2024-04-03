@@ -3,8 +3,8 @@ node_modules/
 
 
 # Contains sensitive information
-config.json
-recent-user-cache.json
+.config/*
+!.config/README
 
 
 # Weird OS-generated files

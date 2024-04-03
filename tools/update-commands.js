@@ -28,7 +28,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const rls = require("readline-sync"); // should probably switch this for something else
 
-const { clientId, guildId, token } = require("../config.json");
+const { clientId, guildId, token } = require("../.config/config.json");
 
 
 // Initialize REST API

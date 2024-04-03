@@ -38,7 +38,7 @@ Mess around with images and GIFs on Discord! Dimwit is a Discord bot that introd
 
 ### Configuration
 
-Create a `config.json` file in the root with the following information:
+Create a `config.json` file in `.config/` with the following information:
 
 #### Required
 

@@ -33,7 +33,7 @@ const fs = require('fs');
 const print = require("./print.js");
 
 
-const saveFilePath = "./recent-user-cache.json"; // why does this go to the root? I have no fucking clue.
+const saveFilePath = "./.config/recent-user-cache.json";
 
 type UserCache = {
     [userId: number]: {

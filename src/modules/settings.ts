@@ -24,7 +24,7 @@
 
 
 // Utils
-const settings = structuredClone(require("./../../config.json"));
+const settings = structuredClone(require("./../../.config/config.json"));
 
 
 // Override certain settings

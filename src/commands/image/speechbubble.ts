@@ -74,7 +74,7 @@ module.exports = {
         context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
         // Add the speechbubble on top
-        const bubble = await Canvas.loadImage(`${__dirname}/../../assets/images/speechbubble.png`);
+        const bubble = await Canvas.loadImage(`${__dirname}/../../../res/images/speechbubble.png`);
         context.drawImage(bubble, 0, 0, canvas.width, (canvas.height * bubbleHeight));
 
         // If necessary, delete pixels inside the speech bubble shape
@@ -82,7 +82,7 @@ module.exports = {
             // Tell Canvas that we want to delete these pixels, not draw them
             context.globalCompositeOperation = "destination-out";
 
-            const mask = await Canvas.loadImage(`${__dirname}/../../assets/images/speechbubble_mask.png`);
+            const mask = await Canvas.loadImage(`${__dirname}/../../../res/images/speechbubble_mask.png`);
             context.drawImage(mask, 0, 0, canvas.width, (canvas.height * bubbleHeight));
 
             // Tell Canvas to stop deleting pixels

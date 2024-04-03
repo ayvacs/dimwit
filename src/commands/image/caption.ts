@@ -72,7 +72,7 @@ module.exports = {
         const fontSize = Math.sqrt(attachment.width * textBoxHeight / userText.length) * 1; // TODO: maybe fix this up
 
         // Create a blank Canvas
-        Canvas.GlobalFonts.registerFromPath(`${__dirname}/../../assets/limerickserial-xbold.ttf`, "LimerickSerial");
+        Canvas.GlobalFonts.registerFromPath(`./../../../res/limerickserial-xbold.ttf`, "LimerickSerial");
         const canvas = Canvas.createCanvas(attachment.width, attachment.height + textBoxHeight);
         const context = canvas.getContext("2d");
 

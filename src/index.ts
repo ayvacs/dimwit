@@ -29,7 +29,7 @@ const path = require("node:path");
 const fs = require("node:fs");
 
 // Utils
-const statuses = require("./assets/statuses.json").messages;
+const statuses = require("./../res/statuses.json").messages;
 const createEmbed = require("./modules/create-embed.js");
 const settings = require("./modules/settings.js");
 const print = require("./modules/print.js");
@@ -93,6 +93,7 @@ client.on(Events.InteractionCreate, async interaction => {
         await command.execute(interaction);
     } catch (error) {
         print.error("Command-Handler", error);
+        console.error(error); //print stack trace
         if (interaction.replied || interaction.deferred) {
             await interaction.followUp({
                 embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")],

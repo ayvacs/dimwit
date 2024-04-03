@@ -28,7 +28,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const rls = require("readline-sync"); // should probably switch this for something else
 
-const { clientId, guildId, token } = require("../.config/config.json");
+const { clientId, guildId, token } = require("../dist/modules/settings.js");
 
 
 // Initialize REST API
@@ -58,7 +58,7 @@ function flushCommands() {
     // Flush global commands
     console.log("Flushing global commands");
     rest.put(
-        Routes.applicationCommands(clientId, guildId), {
+        Routes.applicationCommands(clientId), {
             body: []
         }
     ).then(
@@ -130,7 +130,12 @@ async function deployCommands(cmds, toGuild) {
 const commands = getCommands();
 
 console.log(
-`Choose an option:
+`
+
+
+Please ensure that you have built with 'npm run build'!
+
+Choose an option:
     1. Deploy commands globally
     2. Deploy commands to guild
     3. Deploy commands globally and to guild

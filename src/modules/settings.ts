@@ -23,7 +23,11 @@
 
 
 
-// Utils
+// Node imports
+const { readFileSync } = require('fs');
+
+
+// Read config.json file
 const settings = structuredClone(require("./../../.config/config.json"));
 
 

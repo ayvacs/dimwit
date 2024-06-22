@@ -35,40 +35,28 @@ const { clientId, guildId, token } = require("../dist/modules/settings.js");
 const rest = new REST().setToken(token);
 
 
-// Ask a question
+// Function to ask a question
 function ask(query = "") {
     return rls.question("\n" + query + "\n> ");
 }
 
+// Function to flush guild commands
+function flushGuildCommands() {
+    console.log(`\nFlushing guild commands (guildId: ${guildId})...`);
+    rest.put( Routes.applicationGuildCommands(clientId, guildId), { body: [] } )
+        .then( () => console.log("Successsfully flushed guild commands.") )
+        .catch( console.error );
+};
 
-// Flush guild and global commands
-function flushCommands() {
-    // Flush guild commands
-    console.log("Flushing guild commands");
-    rest.put(
-        Routes.applicationGuildCommands(clientId, guildId), {
-            body: []
-        }
-    ).then(
-        () => console.log("Successfully deleted all guild commands")
-    ).catch(
-        console.error
-    );
+// Function to flush global commands
+function flushGlobalCommands() {
+    console.log("Flushing global commands...");
+    rest.put( Routes.applicationCommands(clientId), { body: [] } )
+        .then( () => console.log("Successfully flushed global commands.") )
+        .catch( console.error );
+};
 
-    // Flush global commands
-    console.log("Flushing global commands");
-    rest.put(
-        Routes.applicationCommands(clientId), {
-            body: []
-        }
-    ).then(
-        () => console.log("Successfully deleted all global commands")
-    ).catch(
-        console.error
-    );
-}
-
-// Return an array of all commands
+// Get an array of all commands
 function getCommands(prefixGuildCommands) {
     const commands = [];
 
@@ -164,7 +152,8 @@ if (choice == 1) {
 
 } else if (choice == 4) {
 
-    flushCommands();
+    flushGlobalCommands();
+    flushGuildCommands();
 
 } else if (choice == 5) {
 

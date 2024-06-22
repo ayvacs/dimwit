@@ -33,19 +33,12 @@ const fs = require('fs');
 const print = require("./print.js");
 
 
-const saveFilePath = "./.config/recent-user-cache.json";
-
-type UserCache = {
-    [userId: number]: {
-        [scope: string]: any
-    }
-}
+const saveFilePath = "./.config/recent-user-cache.json";    // filepath of the saved cache file
+type UserCache = { [userId: number]: { [scope: string]: any } }     // usercache type
 
 
 
-// Functions
-
-// Load and return a cache from file if it exists, or create and return an empty cache
+// Function to load and return a cache from file if it exists, or create and return an empty cache
 function buildCache(): UserCache {
     if (!fs.existsSync(saveFilePath)) {
         print.detail("User-Cache", `Cache log ${saveFilePath} does not exist. Creating an empty cache.`);
@@ -62,7 +55,7 @@ function buildCache(): UserCache {
     }
 }
 
-// Save the cache to disk, returns if success
+// Function to save the cache to disk, returns if success
 function saveCache(cacheObject: UserCache): boolean {
     print.warn("User-Cache", `Saving cache to file ${saveFilePath}`);
 
@@ -82,12 +75,10 @@ function saveCache(cacheObject: UserCache): boolean {
 
 
 
-
-// Build cache
+// Build the cache
 const cacheObject: UserCache = buildCache();
 
-
-// Save to disk when process ends
+// Save the cache to disk when the process ends
 process.on("SIGINT", () => {
     console.log(); //ctrl+c shows "^C" in the terminal
     saveCache(cacheObject);
@@ -97,7 +88,7 @@ process.on("SIGINT", () => {
 
 // Return accessor and mutator functions
 
-export function getUser (userId: number, scope: string, clearAfter: boolean): any {
+export function getUser(userId: number, scope: string, clearAfter: boolean): any {
     // Verify input
     if (userId.toString() === null || !scope)
         return null;
@@ -108,7 +99,7 @@ export function getUser (userId: number, scope: string, clearAfter: boolean): an
 
     // Get the data
     const result = cacheObject[userId][scope];
-    print.log("User-Cache", `Got ${String(result)} at "${String(scope)}" scope for user ${String(userId)}`)
+    print.log("User-Cache", `Got ${String(result)} at "${scope}" scope for user ${String(userId)}`)
 
     // If necessary, clear scope after use
     if (clearAfter)
@@ -117,7 +108,7 @@ export function getUser (userId: number, scope: string, clearAfter: boolean): an
     return result;
 };
 
-export function setUser (userId: number, scope: string, data: any): null {
+export function setUser(userId: number, scope: string, data: any): null {
     // Verify input
     if (userId.toString() === null || !scope)
         return null;
@@ -130,7 +121,7 @@ export function setUser (userId: number, scope: string, data: any): null {
 
     // Set the data
     cacheObject[userId][scope] = data;
-    print.log("User-Cache", `Put ${String(data)} at "${String(scope)}" scope for user ${String(userId)}`);
+    print.log("User-Cache", `Put ${String(data)} at "${scope}" scope for user ${String(userId)}`);
 
     return null;
 };

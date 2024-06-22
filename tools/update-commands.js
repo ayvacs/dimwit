@@ -133,7 +133,7 @@ Choose an option:
 
 // Ask the user to select an option
 let choice = -1;
-while (choice < 1 || choice > 5)
+while (choice < 1 || choice > 7)
     choice = parseInt(rls.question("\nSelect an option from the above choices.\n> "));
 
 console.log();
@@ -164,5 +164,7 @@ switch (choice) {
         break;
 
 };
+
+console.log();
 
 } )();

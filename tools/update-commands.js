@@ -35,11 +35,6 @@ const { clientId, guildId, token } = require("../dist/modules/settings.js");
 const rest = new REST().setToken(token);
 
 
-// Function to ask a question
-function ask(query = "") {
-    return rls.question("\n" + query + "\n> ");
-}
-
 // Function to flush guild commands
 async function flushGuildCommands() {
     console.log(`\nFlushing guild commands (guildId: ${guildId})...`);
@@ -117,6 +112,7 @@ async function deployCommands(cmds, toGuild) {
 // Get commands
 const commands = getCommands();
 
+// Use an async function so that we can await
 (async () => {
 
 console.log(
@@ -133,32 +129,32 @@ Choose an option:
     5. Exit without doing anything`
 );
 
+// Ask the user to select an option
 let choice = -1;
-while (choice < 1 || choice > 5) {
-    choice = ask("Select an option from the above choices.");
-}
+while (choice < 1 || choice > 5)
+    choice = parseInt(rls.question("\nSelect an option from the above choices.\n> "));
 
+console.log();
 
-if (choice == 1) {
+// Perform the desired operation
+switch (choice) {
+    case 1:
+        await deployCommands(commands, false);
+        break;
+    case 2:
+        await deployCommands(commands, true);
+        break;
+    case 3:
+        await deployCommands(commands, false);
+        await deployCommands(commands, true);
+        break;
+    case 4:
+        await flushGlobalCommands();
+        await flushGuildCommands();
+        break;
+    case 5:
+        break;
 
-    deployCommands(commands, false);
+};
 
-} else if (choice == 2) {
-
-    deployCommands(commands, true);
-
-} else if (choice == 3) {
-
-    deployCommands(commands, false);
-    deployCommands(commands, true);
-
-} else if (choice == 4) {
-
-    await flushGlobalCommands();
-    await flushGuildCommands();
-
-} else if (choice == 5) {
-
-}
-
-} )()
+} )();

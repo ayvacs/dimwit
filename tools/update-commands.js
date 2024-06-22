@@ -122,11 +122,13 @@ console.log(
 Please ensure that you have built with 'npm run build'!
 
 Choose an option:
-    1. Deploy commands globally
-    2. Deploy commands to guild
-    3. Deploy commands globally and to guild
-    4. Flush commands
-    5. Exit without doing anything`
+    1. Deploy global commands
+    2. Deploy guild commands
+    3. Deploy global and guild commands
+    4. Flush global commands
+    5. Flush guild commands
+    6. Flush global and guild commands
+    7. Exit without doing anything`
 );
 
 // Ask the user to select an option
@@ -150,9 +152,15 @@ switch (choice) {
         break;
     case 4:
         await flushGlobalCommands();
-        await flushGuildCommands();
         break;
     case 5:
+        await flushGuildCommands();
+        break;
+    case 6:
+        await flushGlobalCommands();
+        await flushGuildCommands();
+        break;
+    case 7:
         break;
 
 };

@@ -99,7 +99,7 @@ process.on("SIGINT", () => {
 
 export function getUser (userId: number, scope: string, clearAfter: boolean): any {
     // Verify input
-    if (userId.toString() === null)
+    if (userId.toString() === null || !scope)
         return null;
 
     // Make sure the data exists
@@ -119,7 +119,7 @@ export function getUser (userId: number, scope: string, clearAfter: boolean): an
 
 export function setUser (userId: number, scope: string, data: any): null {
     // Verify input
-    if (userId.toString() === null)
+    if (userId.toString() === null || !scope)
         return null;
 
     // Make sure an empty object exists for this user

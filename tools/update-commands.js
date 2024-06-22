@@ -41,17 +41,17 @@ function ask(query = "") {
 }
 
 // Function to flush guild commands
-function flushGuildCommands() {
+async function flushGuildCommands() {
     console.log(`\nFlushing guild commands (guildId: ${guildId})...`);
-    rest.put( Routes.applicationGuildCommands(clientId, guildId), { body: [] } )
+    await rest.put( Routes.applicationGuildCommands(clientId, guildId), { body: [] } )
         .then( () => console.log("Successsfully flushed guild commands.") )
         .catch( console.error );
 };
 
 // Function to flush global commands
-function flushGlobalCommands() {
+async function flushGlobalCommands() {
     console.log("Flushing global commands...");
-    rest.put( Routes.applicationCommands(clientId), { body: [] } )
+    await rest.put( Routes.applicationCommands(clientId), { body: [] } )
         .then( () => console.log("Successfully flushed global commands.") )
         .catch( console.error );
 };
@@ -117,6 +117,8 @@ async function deployCommands(cmds, toGuild) {
 // Get commands
 const commands = getCommands();
 
+(async () => {
+
 console.log(
 `
 
@@ -152,9 +154,11 @@ if (choice == 1) {
 
 } else if (choice == 4) {
 
-    flushGlobalCommands();
-    flushGuildCommands();
+    await flushGlobalCommands();
+    await flushGuildCommands();
 
 } else if (choice == 5) {
 
 }
+
+} )()

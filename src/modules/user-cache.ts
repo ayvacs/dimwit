@@ -89,6 +89,7 @@ const cacheObject: UserCache = buildCache();
 
 // Save to disk when process ends
 process.on("SIGINT", () => {
+    console.log(); //ctrl+c shows "^C" in the terminal
     saveCache(cacheObject);
     process.exit(0);
 });

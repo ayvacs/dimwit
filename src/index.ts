@@ -94,18 +94,13 @@ client.on(Events.InteractionCreate, async interaction => {
     } catch (error) {
         print.error("Command-Handler", error);
         console.error(error); //print stack trace
-        if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({
-                embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")],
-                ephemeral: true
-            });
-        } else {
-            await interaction.reply({
-                embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")],
-                ephemeral: true
-            });
-        }
-    }
+
+        // Notify the end-user of the error
+        ((interaction.replied || interaction.deferred) ? interaction.followUp : interaction.reply)({
+            embeds: [createEmbed.error("There was an unknown error while executing this command. If you're self-hosting, check the npm console as more information has been printed there.")],
+            ephemeral: true
+        });
+    };
 });
 
 
@@ -118,14 +113,12 @@ print.detail("Client", "Logging in...");
 
 // This function runs when the client is ready, only once
 client.once(Events.ClientReady, async readyClient => {
-
     // Function to change the presence, returning the choice, and optionally providing a specific status to ignore.
     function setStatusMessage(exclude: string = ""): string {
         let current = exclude;
-
-        while (current == exclude) {
+        while (current == exclude)
             current = statuses[Math.floor(Math.random() * statuses.length)];
-        }
+        
         print.log("Client", `Changing status to "Playing ${current}"`);
         readyClient.user.setPresence({
             status: "dnd",
@@ -133,7 +126,7 @@ client.once(Events.ClientReady, async readyClient => {
                 name: current,
                 type: ActivityType.Playing
             }]
-        })
+        });
 
         return current;
     }
@@ -148,7 +141,7 @@ client.once(Events.ClientReady, async readyClient => {
     while (true) {
         await wait(120_000); // 1_000 = 1 second
         currentStatus = setStatusMessage(currentStatus);
-    }
+    };
 
 });
 
